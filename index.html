@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Loan Calculator</title>
+    <title>Hezbon Calculator</title>
     <style>
       /* ... existing CSS ... */
       /* General styles */
@@ -11,7 +11,7 @@
         color: #333;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        min-height: 40vh;
         position: relative; /* Make the body the positioning context */
         padding-bottom: 40px;
         display: flex;
@@ -237,7 +237,7 @@
         <label for="loanAmount">Loan Amount:</label>
         <input type="number" id="loanAmount" value="0" /><br />
 
-        <button id="calculateBtn">Calculate</button>
+        <button id="calculateBtn">Calculate</button><br />
         <button id="resetBtn">Reset</button> <br /><br />
       </div>
       <div class="results-section">
@@ -246,8 +246,8 @@
       </div>
     </div>
     <footer>
-        <p>Designed with ❤️ by Software Craftsman Hezbon</p>
-      </footer>
+      <p>Designed with ❤️ by Software Craftsman Hezbon</p>
+    </footer>
     <script>
       const netSalaryInput = document.getElementById("netSalary");
       const allowancesContainer = document.getElementById(
