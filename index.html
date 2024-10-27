@@ -200,14 +200,8 @@
         <label for="basicPay">Enter your Basic Pay per month:</label>
         <input type="number" id="basicPay" value="0" /><br /><br />
 
-        <label for="grossSalary">Enter your Gross Salary per month:</label>
-        <input type="number" id="grossSalary" value="0" /><br /><br />
-
         <label for="netSalary">Enter your Net Salary per month:</label>
         <input type="number" id="netSalary" value="0" /><br /><br />
-
-        <label for="nhif">Enter the NHIF per month:</label>
-        <input type="number" id="nhif" value="0" /><br />
 
         <h2>Non-Permanent Allowances:</h2>
         <div id="allowancesContainer">
@@ -273,7 +267,6 @@
       const calculateBtn = document.getElementById("calculateBtn");
       const resultDiv = document.getElementById("result");
       const basicPayInput = document.getElementById("basicPay");
-      const grossSalaryInput = document.getElementById("grossSalary");
       const loanPeriodInput = document.getElementById("loanPeriod");
       const interestRateInput = document.getElementById("interestRate");
       const loanAmountInput = document.getElementById("loanAmount");
@@ -354,11 +347,9 @@
       calculateBtn.addEventListener("click", function () {
         const netSalary = parseFloat(netSalaryInput.value) || 0;
         const basicPay = parseFloat(basicPayInput.value) || 0;
-        const grossSalary = parseFloat(grossSalaryInput.value) || 0;
         const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
         const interestRate = parseFloat(interestRateInput.value) || 0;
         const loanAmount = parseFloat(loanAmountInput.value) || 0;
-        const nhif = parseFloat(nhifInput.value) || 0;
 
         const allowances = document.querySelectorAll(".allowance");
         let totalAllowances = 0;
@@ -391,7 +382,7 @@
 
         // Calculate Adjusted Net Salary
         const adjustedNetSalary =
-          netSalary - allowanceAddition + nhif - 0.0275 * grossSalary;
+          netSalary - allowanceAddition;
 
         const oneThirdBasicPay = (basicPay / 3).toFixed(2);
 
