@@ -397,11 +397,11 @@
             const oneThirdBasicPay = (basicPay / 3).toFixed(2);
             const totalIncome = adjustedNetSalary + totalLoans;
             const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
-            const ability = (debtServiceRatio - 200).toFixed(2);
+            const ability = (debtServiceRatio - 300).toFixed(2);
             const maxAffordableLoan = -PV(interestRate / 100 / 12, loanPeriod, -parseFloat(ability));
             const monthlyPayment = PMT(interestRate, loanPeriod, loanAmount).toFixed(0);
             const insurance = 0.00042 * loanAmount * loanPeriod;
-            const negotiationFee = (2 / 100) * takeHomeAmount;
+            const negotiationFee = (2.5 / 100) * takeHomeAmount;
             const exciseDuty = (20 / 100) * negotiationFee;
             const finalTakeHome = takeHomeAmount - insurance - negotiationFee - exciseDuty;
 
