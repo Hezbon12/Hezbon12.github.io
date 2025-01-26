@@ -22,6 +22,45 @@
             background-image: url("/pic-article-01.jpg");
             background-size: cover;
             background-repeat: no-repeat;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode .container {
+            background-color: #444;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode input[type="number"] {
+            background-color: #555;
+            color: #f4f4f4;
+            border-color: #666;
+        }
+
+        body.dark-mode table {
+            background-color: #444;
+            color: #f4f4f4;
+        }
+
+        body.dark-mode th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        body.dark-mode tr:nth-child(even) {
+            background-color: #555;
+        }
+
+        body.dark-mode tr:hover {
+            background-color: #666;
+        }
+
+        body.dark-mode td {
+            color: #f4f4f4;
         }
 
         .container {
@@ -33,6 +72,7 @@
             display: flex;
             margin: 20px auto;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .input-section {
@@ -67,6 +107,7 @@
             box-sizing: border-box;
             font-size: 16px;
             color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         input[type="number"]::placeholder {
@@ -117,34 +158,42 @@
             }
         }
 
+        /* Improved Table Styling */
         table {
             border-collapse: collapse;
             width: 100%;
-            border-radius: 5px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         th, td {
             text-align: left;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
-            font-weight: bold;
         }
 
         th {
-            background-color: #e0e0e0;
+            background-color: #007bff;
+            color: #fff;
             font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
         }
 
         tr:nth-child(even) {
-            background-color: #f8f8f8;
+            background-color: #f9f9f9;
         }
 
         tr:hover {
-            background-color: #e9e9e9;
+            background-color: #f1f1f1;
+            transition: background-color 0.2s ease;
         }
 
         td {
             font-weight: normal;
+            color: #555;
         }
 
         @media (max-width: 768px) {
@@ -219,9 +268,30 @@
             transform: translateY(-50%);
             color: #ccc;
         }
+
+        /* Dark Mode Toggle Button */
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #themeToggle:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
+    <!-- Dark Mode Toggle Button -->
+    <button id="themeToggle">Toggle Dark Mode</button>
+
     <div class="container">
         <div class="input-section">
             <img src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/Ahezbon11.PNG?raw=true" alt="Loan Calculator Logo" id="logo" />
@@ -288,6 +358,13 @@
         <p>Designed with ❤️ by the Software Craftsman Hezbon</p>
     </footer>
     <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById("themeToggle");
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+        // Rest of your existing JavaScript code...
         const netSalaryInput = document.getElementById("netSalary");
         const allowancesContainer = document.getElementById("allowancesContainer");
         const loansContainer = document.getElementById("loansContainer");
