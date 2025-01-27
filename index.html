@@ -387,7 +387,7 @@
         </div>
     </div>
     <footer>
-        <p>Designed with ❤️ by the Hardcore Software Craftsman Hezbon</p>
+        <p>Designed with ❤️ by the Software Craftsman Hezbon</p>
     </footer>
     <script>
         // Dark Mode Toggle
@@ -640,10 +640,14 @@
             const customerName = customerNameInput.value;
             const calculationDate = calculationDateInput.value;
 
+            // Get current time
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString(); // Format time as HH:MM:SS AM/PM or similar
+
             let pdfContent = `
                 <div style="font-size: 16px; margin-bottom: 10px;">
                     <p><strong>Customer Name:</strong> ${customerName}</p>
-                    <p><strong>Calculation Date:</strong> ${calculationDate}</p>
+                    <p><strong>Calculation Date:</strong> ${calculationDate} <strong>Time:</strong> ${currentTime}</p>
                 </div>
                 <div>${resultElement.innerHTML}</div>
             `;
@@ -663,4 +667,3 @@
     </script>
 </body>
 </html>
-
