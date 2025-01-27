@@ -35,7 +35,7 @@
             color: #f4f4f4;
         }
 
-        body.dark-mode input[type="number"] {
+        body.dark-mode input[type="number"], body.dark-mode input[type="text"], body.dark-mode input[type="date"] {
             background-color: #555;
             color: #f4f4f4;
             border-color: #666;
@@ -86,7 +86,8 @@
         .results-section {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            /* Reduced gap to bring elements closer */
+            gap: 0px;
             width: 70%;
             flex-grow: 1;
             margin-left: 40px;
@@ -95,11 +96,11 @@
 
         label {
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* Reduced label margin */
             display: block;
         }
 
-        input[type="number"] {
+        input[type="number"], input[type="text"], input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -108,14 +109,15 @@
             font-size: 16px;
             color: #333;
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            margin-bottom: 5px; /* Added margin to input fields */
         }
 
-        input[type="number"]::placeholder {
+        input[type="number"]::placeholder, input[type="text"]::placeholder, input[type="date"]::placeholder {
             color: #ccc;
             font-weight: bold;
         }
 
-        input[type="number"]:focus {
+        input[type="number"]:focus, input[type="text"]:focus, input[type="date"]:focus {
             border-color: #007BFF;
             outline: none;
         }
@@ -165,7 +167,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            margin-top: 10px; /* Reduced table top margin */
         }
 
         th, td {
@@ -286,7 +288,29 @@
         #themeToggle:hover {
             background-color: #0056b3;
         }
+
+        /* Save Results Button */
+        #saveResultsBtn {
+            background-color: #28a745; /* Green color for save button */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; /* Add some space above the button */
+        }
+
+        #saveResultsBtn:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
     </style>
+    <!-- jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- DOMPurify library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 </head>
 <body>
     <!-- Dark Mode Toggle Button -->
@@ -351,7 +375,15 @@
         </div>
         <div class="results-section">
             <h2>Loan Summary:</h2>
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" placeholder="Enter Customer Name"><br />
+
+            <label for="calculationDate">Date:</label>
+            <input type="date" id="calculationDate"><br />
+
             <div id="result"></div>
+            <!-- Save Results Button -->
+            <button id="saveResultsBtn">Save Results</button>
         </div>
     </div>
     <footer>
@@ -377,6 +409,10 @@
         const loanPeriodInput = document.getElementById("loanPeriod");
         const interestRateInput = document.getElementById("interestRate");
         const loanAmountInput = document.getElementById("loanAmount");
+        const saveResultsBtn = document.getElementById("saveResultsBtn"); // Get Save Results Button
+        const customerNameInput = document.getElementById("customerName"); // Get Customer Name Input
+        const calculationDateInput = document.getElementById("calculationDate"); // Get Calculation Date Input
+
 
         let allowanceCount = 1;
         let loanCount = 1;
@@ -491,13 +527,15 @@
                 loanAmountLabel.classList.remove("blinking");
             }, 20000);
 
-            const resetBtn = document.getElementById("resetBtn");
             resetBtn.addEventListener("click", function () {
                 netSalaryInput.value = '';
                 basicPayInput.value = '';
                 loanPeriodInput.value = '';
                 interestRateInput.value = '';
                 loanAmountInput.value = '';
+                customerNameInput.value = ''; // Clear Customer Name
+                calculationDateInput.value = ''; // Clear Calculation Date
+
 
                 const allowances = document.querySelectorAll(".allowance");
                 allowances.forEach((input) => {
@@ -522,7 +560,7 @@
                 loanAmountLabel.classList.remove("blinking");
             });
 
-            resultDiv.innerHTML = `
+            const resultsHTML = `
                 <table>
                     <tr>
                         <th>Description</th>
@@ -582,6 +620,8 @@
                     </tr>
                 </table>
             `;
+
+            resultDiv.innerHTML = resultsHTML;
         });
 
         // Add event listener to change border color when loan amount is input
@@ -591,6 +631,34 @@
             } else {
                 loanAmountInput.style.borderColor = 'red';
             }
+        });
+
+        // Function to generate and download PDF
+        saveResultsBtn.addEventListener('click', function() {
+            const pdfDoc = new jspdf.jsPDF();
+            const resultElement = document.getElementById('result');
+            const customerName = customerNameInput.value;
+            const calculationDate = calculationDateInput.value;
+
+            let pdfContent = `
+                <div style="font-size: 16px; margin-bottom: 10px;">
+                    <p><strong>Customer Name:</strong> ${customerName}</p>
+                    <p><strong>Calculation Date:</strong> ${calculationDate}</p>
+                </div>
+                <div>${resultElement.innerHTML}</div>
+            `;
+
+            pdfDoc.html(pdfContent, {
+                callback: function (pdf) {
+                    pdf.save('loan_summary.pdf');
+                },
+                margin: [10, 10, 10, 10],
+                autoPaging: 'text',
+                x: 0,
+                y: 0,
+                width: 190, //target width in the PDF document
+                windowWidth: 675 //window width in CSS pixels
+            });
         });
     </script>
 </body>
