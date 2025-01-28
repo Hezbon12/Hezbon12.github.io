@@ -1,312 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hezbon Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-        /* General styles */
-        body {
-            font-family: "Roboto", sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 60px;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            background-image: url("/pic-article-01.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+      /* General styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+        padding-bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        background-image: url("/pic-article-01.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
 
-        body.dark-mode {
-            background-color: #333;
-            color: #f4f4f4;
-        }
+      body.dark-mode {
+        background-color: #333;
+        color: #f4f4f4;
+      }
 
-        body.dark-mode .container {
-            background-color: #444;
-            color: #f4f4f4;
-        }
+      body.dark-mode .container {
+        background-color: #444;
+        color: #f4f4f4;
+      }
 
-        body.dark-mode input[type="number"], body.dark-mode input[type="text"], body.dark-mode input[type="date"] {
-            background-color: #555;
-            color: #f4f4f4;
-            border-color: #666;
-        }
+      body.dark-mode input[type="number"],
+      body.dark-mode input[type="text"],
+      body.dark-mode input[type="date"] {
+        background-color: #555;
+        color: #f4f4f4;
+        border-color: #666;
+      }
 
-        body.dark-mode table {
-            background-color: #444;
-            color: #f4f4f4;
-        }
+      body.dark-mode table {
+        background-color: #444;
+        color: #f4f4f4;
+      }
 
-        body.dark-mode th {
-            background-color: #007bff;
-            color: #fff;
-        }
+      body.dark-mode th {
+        background-color: #007bff;
+        color: #fff;
+      }
 
-        body.dark-mode tr:nth-child(even) {
-            background-color: #555;
-        }
+      body.dark-mode tr:nth-child(even) {
+        background-color: #555;
+      }
 
-        body.dark-mode tr:hover {
-            background-color: #666;
-        }
+      body.dark-mode tr:hover {
+        background-color: #666;
+      }
 
-        body.dark-mode td {
-            color: #f4f4f4;
-        }
+      body.dark-mode td {
+        color: #f4f4f4;
+      }
 
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        display: flex;
+        margin: 20px auto;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .input-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        width: 50%;
+        justify-content: center;
+      }
+
+      .results-section {
+        display: flex;
+        flex-direction: column;
+        /* Reduced gap to bring elements closer */
+        gap: 0px;
+        width: 70%;
+        flex-grow: 1;
+        margin-left: 40px;
+        margin-top: 335px;
+      }
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px; /* Reduced label margin */
+        display: block;
+      }
+
+      input[type="number"],
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #333;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+        margin-bottom: 5px; /* Added margin to input fields */
+      }
+
+      input[type="number"]::placeholder,
+      input[type="text"]::placeholder,
+      input[type="date"]::placeholder {
+        color: #ccc;
+        font-weight: bold;
+      }
+
+      input[type="number"]:focus,
+      input[type="text"]:focus,
+      input[type="date"]:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+
+      button,
+      #resetBtn,
+      #saveResultsBtn,
+      #themeToggle {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        margin-top: 2px; /* Reduced margin-top to reduce space between buttons */
+        margin-bottom: 2px; /* Added margin-bottom for spacing consistency */
+      }
+
+      button:hover,
+      #resetBtn:hover,
+      #saveResultsBtn:hover,
+      #themeToggle:hover {
+        background-color: #0062cc;
+      }
+
+      #logo {
+        width: 700px;
+        height: auto;
+        margin: 20px auto;
+      }
+
+      #logo:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+
+      .blinking {
+        animation: blink 1s linear infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Improved Table Styling */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 10px; /* Reduced table top margin */
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 12px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.2s ease;
+      }
+
+      td {
+        font-weight: normal;
+        color: #555;
+      }
+
+      @media (max-width: 768px) {
         .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-            display: flex;
-            margin: 20px auto;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, color 0.3s ease;
+          flex-direction: column;
+          width: 90%;
+          padding: 20px;
         }
 
-        .input-section {
-            display: flex;
-            flex-direction: column;
-            gap: 0px;
-            width: 50%;
-            justify-content: center;
-        }
-
+        .input-section,
         .results-section {
-            display: flex;
-            flex-direction: column;
-            /* Reduced gap to bring elements closer */
-            gap: 0px;
-            width: 70%;
-            flex-grow: 1;
-            margin-left: 40px;
-            margin-top: 335px;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 5px; /* Reduced label margin */
-            display: block;
-        }
-
-        input[type="number"], input[type="text"], input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
-            color: #333;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            margin-bottom: 5px; /* Added margin to input fields */
-        }
-
-        input[type="number"]::placeholder, input[type="text"]::placeholder, input[type="date"]::placeholder {
-            color: #ccc;
-            font-weight: bold;
-        }
-
-        input[type="number"]:focus, input[type="text"]:focus, input[type="date"]:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
-
-        button, #resetBtn, #saveResultsBtn, #themeToggle {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-            margin-top: 2px; /* Reduced margin-top to reduce space between buttons */
-            margin-bottom: 2px; /* Added margin-bottom for spacing consistency */
-        }
-
-        button:hover, #resetBtn:hover, #saveResultsBtn:hover, #themeToggle:hover {
-            background-color: #0062cc;
+          width: 100%;
+          margin-left: 0;
         }
 
         #logo {
-            width: 700px;
-            height: auto;
-            margin: 20px auto;
+          width: 200px;
         }
+      }
 
-        #logo:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
+      #resetBtn {
+        background-color: #f08080;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-        .blinking {
-            animation: blink 1s linear infinite;
-        }
+      #resetBtn:hover {
+        background-color: #dc143c;
+      }
 
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
-        }
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid #555;
+      }
 
-        /* Improved Table Styling */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 10px; /* Reduced table top margin */
-        }
+      footer p {
+        margin: 0;
+        font-size: 14px;
+      }
 
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border: 1px solid #ddd;
-        }
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 20px;
+        background-color: #4caf50;
+        transition: width 0.5s ease-in-out;
+      }
 
-        th {
-            background-color: #007bff;
-            color: #fff;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
+      .icon-placeholder {
+        position: relative;
+      }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+      .icon-placeholder input[type="number"] {
+        padding-left: 30px; /* Adjust padding to make space for the icon */
+      }
 
-        tr:hover {
-            background-color: #f1f1f1;
-            transition: background-color 0.2s ease;
-        }
+      .icon-placeholder .fa-calendar,
+      .icon-placeholder .fa-percent {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ccc;
+      }
 
-        td {
-            font-weight: normal;
-            color: #555;
-        }
+      /* Dark Mode Toggle Button */
+      #themeToggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                width: 90%;
-                padding: 20px;
-            }
+      #themeToggle:hover {
+        background-color: #0056b3;
+      }
 
-            .input-section, .results-section {
-                width: 100%;
-                margin-left: 0;
-            }
+      /* Save Results Button */
+      #saveResultsBtn {
+        background-color: #28a745; /* Green color for save button */
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px; /* Add some space above the button */
+      }
 
-            #logo {
-                width: 200px;
-            }
-        }
-
-        #resetBtn {
-            background-color: #f08080;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #resetBtn:hover {
-            background-color: #dc143c;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            border-top: 1px solid #555;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 20px;
-            background-color: #4caf50;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .icon-placeholder {
-            position: relative;
-        }
-
-        .icon-placeholder input[type="number"] {
-            padding-left: 30px; /* Adjust padding to make space for the icon */
-        }
-
-        .icon-placeholder .fa-calendar, .icon-placeholder .fa-percent {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ccc;
-        }
-
-        /* Dark Mode Toggle Button */
-        #themeToggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #themeToggle:hover {
-            background-color: #0056b3;
-        }
-
-        /* Save Results Button */
-        #saveResultsBtn {
-            background-color: #28a745; /* Green color for save button */
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 10px; /* Add some space above the button */
-        }
-
-        #saveResultsBtn:hover {
-            background-color: #218838; /* Darker green on hover */
-        }
+      #saveResultsBtn:hover {
+        background-color: #218838; /* Darker green on hover */
+      }
     </style>
     <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -314,256 +336,308 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- DOMPurify library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Dark Mode Toggle Button -->
     <button id="themeToggle">Toggle Dark Mode</button>
 
     <div class="container">
-        <div class="input-section">
-            <img src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/Ahezbon11.PNG?raw=true" alt="Loan Calculator Logo" id="logo" />
-            <label>
-                Welcome to the loan calculator! Please enter your details below to calculate your loan.
-            </label><br /><br />
-            <label for="basicPay">Enter your Basic Pay per month:</label>
-            <input type="number" id="basicPay" name="basicPay" placeholder="KSH"><br /><br />
+      <div class="input-section">
+        <img
+          src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/Ahezbon11.PNG?raw=true"
+          alt="Loan Calculator Logo"
+          id="logo"
+        />
+        <label>
+          Welcome to the loan calculator! Please enter your details below to
+          calculate your loan. </label
+        ><br /><br />
+        <label for="basicPay">Enter your Basic Pay per month:</label>
+        <input
+          type="number"
+          id="basicPay"
+          name="basicPay"
+          placeholder="KSH"
+        /><br /><br />
 
-            <label for="netSalary">Enter your Net Salary per month:</label>
-            <input type="number" id="netSalary" placeholder="KSH"><br />
+        <label for="netSalary">Enter your Net Salary per month:</label>
+        <input type="number" id="netSalary" placeholder="KSH" /><br />
 
-            <h2>Non-Permanent Allowances:</h2>
-            <div id="allowancesContainer">
-                <div class="allowanceInput">
-                    <label for="allowance1">Enter the Allowance:</label>
-                    <input type="number" class="allowance" id="allowance1" placeholder="KSH" />
-                </div>
-            </div>
-            <button id="addAllowance">Add Allowance</button><br />
-
-            <h2>Loans to be bought off:</h2>
-            <div id="loansContainer">
-                <div class="loanInput">
-                    <label for="loan1">Enter the Loan installment:</label>
-                    <input type="number" class="loan" id="loan1" placeholder="KSH" />
-                </div>
-            </div>
-            <button id="addLoan">Add Loan</button><br />
-
-            <h2>Loan Balances:</h2>
-            <div id="loanBalancesContainer">
-                <div class="loanBalanceInput">
-                    <label for="loanBalance1">Enter the Loan Balance:</label>
-                    <input type="number" class="loanBalance" id="loanBalance1" placeholder="KSH" />
-                </div>
-            </div>
-            <button id="addLoanBalance">Add Loan Balance</button><br /><br />
-
-            <label for="loanPeriod">Enter the Loan Period (Months):</label>
-            <div class="icon-placeholder">
-                <input type="number" id="loanPeriod" placeholder="">
-                <i class="fas fa-calendar"></i>
-            </div><br /><br />
-
-            <label for="interestRate">Enter the Interest Rate (%):</label>
-            <div class="icon-placeholder">
-                <input type="number" id="interestRate" placeholder="">
-                <i class="fas fa-percent"></i>
-            </div><br /><br />
-
-            <label for="loanAmount">Enter the Loan Amount:</label>
-            <input type="number" id="loanAmount" placeholder="KSH"><br />
-
-            <button id="calculateBtn">Calculate</button><br />
-            <button id="resetBtn">Reset</button><br /><br />
+        <h2>Non-Permanent Allowances:</h2>
+        <div id="allowancesContainer">
+          <div class="allowanceInput">
+            <label for="allowance1">Enter the Allowance:</label>
+            <input
+              type="number"
+              class="allowance"
+              id="allowance1"
+              placeholder="KSH"
+            />
+          </div>
         </div>
-        <div class="results-section">
-            <h2>Loan Summary:</h2>
-            <label for="customerName">Customer Name:</label>
-            <input type="text" id="customerName" placeholder="Enter Customer Name"><br />
+        <button id="addAllowance">Add Allowance</button><br />
 
-            <label for="calculationDate">Date:</label>
-            <input type="date" id="calculationDate"><br />
-
-            <div id="result"></div>
-            <!-- Save Results Button -->
-            <button id="saveResultsBtn">Save Results</button>
+        <h2>Loans to be bought off:</h2>
+        <div id="loansContainer">
+          <div class="loanInput">
+            <label for="loan1">Enter the Loan installment:</label>
+            <input type="number" class="loan" id="loan1" placeholder="KSH" />
+          </div>
         </div>
+        <button id="addLoan">Add Loan</button><br />
+
+        <h2>Loan Balances:</h2>
+        <div id="loanBalancesContainer">
+          <div class="loanBalanceInput">
+            <label for="loanBalance1">Enter the Loan Balance:</label>
+            <input
+              type="number"
+              class="loanBalance"
+              id="loanBalance1"
+              placeholder="KSH"
+            />
+          </div>
+        </div>
+        <button id="addLoanBalance">Add Loan Balance</button><br /><br />
+
+        <label for="loanPeriod">Enter the Loan Period (Months):</label>
+        <div class="icon-placeholder">
+          <input type="number" id="loanPeriod" placeholder="" />
+          <i class="fas fa-calendar"></i>
+        </div>
+        <br /><br />
+
+        <label for="interestRate">Enter the Interest Rate (%):</label>
+        <div class="icon-placeholder">
+          <input type="number" id="interestRate" placeholder="" />
+          <i class="fas fa-percent"></i>
+        </div>
+        <br /><br />
+
+        <label for="loanAmount">Enter the Loan Amount:</label>
+        <input type="number" id="loanAmount" placeholder="KSH" /><br />
+
+        <button id="calculateBtn">Calculate</button><br />
+        <button id="resetBtn">Reset</button><br /><br />
+      </div>
+      <div class="results-section">
+        <h2>Loan Summary:</h2>
+        <label for="customerName">Customer Name:</label>
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Enter Customer Name"
+        /><br />
+
+        <label for="calculationDate">Date:</label>
+        <input type="date" id="calculationDate" /><br />
+
+        <div id="result"></div>
+        <!-- Save Results Button -->
+        <button id="saveResultsBtn">Save Results</button>
+      </div>
     </div>
     <footer>
-        <p>Designed with ❤️ by the Software Craftsman Hezbon</p>
+      <p>Designed with ❤️ by the Software Craftsman Hezbon</p>
     </footer>
     <script>
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById("themeToggle");
-        themeToggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-        });
+      // Dark Mode Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+      });
 
-        // Rest of your existing JavaScript code...
-        const netSalaryInput = document.getElementById("netSalary");
-        const allowancesContainer = document.getElementById("allowancesContainer");
-        const loansContainer = document.getElementById("loansContainer");
-        const addAllowanceBtn = document.getElementById("addAllowance");
-        const addLoanBtn = document.getElementById("addLoan");
-        const addLoanBalanceBtn = document.getElementById("addLoanBalance");
-        const calculateBtn = document.getElementById("calculateBtn");
-        const resultDiv = document.getElementById("result");
-        const basicPayInput = document.getElementById("basicPay");
-        const loanPeriodInput = document.getElementById("loanPeriod");
-        const interestRateInput = document.getElementById("interestRate");
-        const loanAmountInput = document.getElementById("loanAmount");
-        const saveResultsBtn = document.getElementById("saveResultsBtn"); // Get Save Results Button
-        const customerNameInput = document.getElementById("customerName"); // Get Customer Name Input
-        const calculationDateInput = document.getElementById("calculationDate"); // Get Calculation Date Input
+      // Rest of your existing JavaScript code...
+      const netSalaryInput = document.getElementById("netSalary");
+      const allowancesContainer = document.getElementById(
+        "allowancesContainer"
+      );
+      const loansContainer = document.getElementById("loansContainer");
+      const addAllowanceBtn = document.getElementById("addAllowance");
+      const addLoanBtn = document.getElementById("addLoan");
+      const addLoanBalanceBtn = document.getElementById("addLoanBalance");
+      const calculateBtn = document.getElementById("calculateBtn");
+      const resultDiv = document.getElementById("result");
+      const basicPayInput = document.getElementById("basicPay");
+      const loanPeriodInput = document.getElementById("loanPeriod");
+      const interestRateInput = document.getElementById("interestRate");
+      const loanAmountInput = document.getElementById("loanAmount");
+      const saveResultsBtn = document.getElementById("saveResultsBtn"); // Get Save Results Button
+      const customerNameInput = document.getElementById("customerName"); // Get Customer Name Input
+      const calculationDateInput = document.getElementById("calculationDate"); // Get Calculation Date Input
 
+      let allowanceCount = 1;
+      let loanCount = 1;
+      let loanBalanceCount = 1;
 
-        let allowanceCount = 1;
-        let loanCount = 1;
-        let loanBalanceCount = 1;
+      addAllowanceBtn.addEventListener("click", () => {
+        addNewInputField("allowance", allowancesContainer);
+      });
 
-        addAllowanceBtn.addEventListener("click", () => {
-            addNewInputField("allowance", allowancesContainer);
-        });
+      addLoanBtn.addEventListener("click", () => {
+        addNewInputField("loan", loansContainer);
+      });
 
-        addLoanBtn.addEventListener("click", () => {
-            addNewInputField("loan", loansContainer);
-        });
+      addLoanBalanceBtn.addEventListener("click", () => {
+        addNewInputField("loanBalance", loanBalancesContainer);
+      });
 
-        addLoanBalanceBtn.addEventListener("click", () => {
-            addNewInputField("loanBalance", loanBalancesContainer);
-        });
+      function addNewInputField(type, container) {
+        if (type === "allowance") {
+          allowanceCount++;
+        } else if (type === "loan") {
+          loanCount++;
+        } else if (type === "loanBalance") {
+          loanBalanceCount++;
+        }
 
-        function addNewInputField(type, container) {
-            if (type === "allowance") {
-                allowanceCount++;
-            } else if (type === "loan") {
-                loanCount++;
-            } else if (type === "loanBalance") {
-                loanBalanceCount++;
-            }
+        const newInputDiv = document.createElement("div");
+        const id = `${type}${allowanceCount}${loanCount}${loanBalanceCount}`;
 
-            const newInputDiv = document.createElement("div");
-            const id = `${type}${allowanceCount}${loanCount}${loanBalanceCount}`;
-
-            newInputDiv.className = `${type}Input`;
-            newInputDiv.innerHTML = `
-                <label for="${id}">${type.charAt(0).toUpperCase() + type.slice(1)}:</label>
+        newInputDiv.className = `${type}Input`;
+        newInputDiv.innerHTML = `
+                <label for="${id}">${
+          type.charAt(0).toUpperCase() + type.slice(1)
+        }:</label>
                 <input type="number" class="${type}" id="${id}" placeholder="KSH">
-                <button class="remove${type.charAt(0).toUpperCase() + type.slice(1)}">Remove</button>
+                <button class="remove${
+                  type.charAt(0).toUpperCase() + type.slice(1)
+                }">Remove</button>
             `;
 
-            container.appendChild(newInputDiv);
+        container.appendChild(newInputDiv);
 
-            const removeButton = newInputDiv.querySelector(`.remove${type.charAt(0).toUpperCase() + type.slice(1)}`);
-            removeButton.addEventListener("click", () => {
-                container.removeChild(newInputDiv);
-            });
+        const removeButton = newInputDiv.querySelector(
+          `.remove${type.charAt(0).toUpperCase() + type.slice(1)}`
+        );
+        removeButton.addEventListener("click", () => {
+          container.removeChild(newInputDiv);
+        });
+      }
+
+      function PMT(interestRate, loanPeriod, loanAmount) {
+        const monthlyInterestRate = interestRate / 100 / 12;
+        const denominator = 1 - Math.pow(1 + monthlyInterestRate, -loanPeriod);
+        return (loanAmount * monthlyInterestRate) / denominator;
+      }
+
+      function PV(rate, nper, pmt, fv = 0, type = 0) {
+        if (rate === 0) {
+          return -(pmt * nper + fv);
+        } else {
+          const pow = Math.pow(1 + rate, nper);
+          return (
+            -(pmt * (1 + rate * type) * ((pow - 1) / rate) + fv * pow) / pow
+          );
+        }
+      }
+
+      calculateBtn.addEventListener("click", function () {
+        const netSalary = parseFloat(netSalaryInput.value) || 0;
+        const basicPay = parseFloat(basicPayInput.value) || 0;
+        const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
+        const interestRate = parseFloat(interestRateInput.value) || 0;
+        const loanAmount = parseFloat(loanAmountInput.value) || 0;
+
+        // Change the border color of the loanAmount input field to red if empty, otherwise to black
+        if (loanAmountInput.value.trim() === "") {
+          loanAmountInput.style.borderColor = "red";
+        } else {
+          loanAmountInput.style.borderColor = "black";
         }
 
-        function PMT(interestRate, loanPeriod, loanAmount) {
-            const monthlyInterestRate = interestRate / 100 / 12;
-            const denominator = 1 - Math.pow(1 + monthlyInterestRate, -loanPeriod);
-            return (loanAmount * monthlyInterestRate) / denominator;
-        }
+        const allowances = document.querySelectorAll(".allowance");
+        let totalAllowances = 0;
+        allowances.forEach((input) => {
+          totalAllowances += parseFloat(input.value) || 0;
+        });
+        const allowanceAddition = totalAllowances * 0.7;
 
-        function PV(rate, nper, pmt, fv = 0, type = 0) {
-            if (rate === 0) {
-                return -(pmt * nper + fv);
-            } else {
-                const pow = Math.pow(1 + rate, nper);
-                return -(pmt * (1 + rate * type) * ((pow - 1) / rate) + fv * pow) / pow;
-            }
-        }
+        const loans = document.querySelectorAll(".loan");
+        let totalLoans = 0;
+        loans.forEach((input) => {
+          totalLoans += parseFloat(input.value) || 0;
+        });
 
-        calculateBtn.addEventListener("click", function () {
-            const netSalary = parseFloat(netSalaryInput.value) || 0;
-            const basicPay = parseFloat(basicPayInput.value) || 0;
-            const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
-            const interestRate = parseFloat(interestRateInput.value) || 0;
-            const loanAmount = parseFloat(loanAmountInput.value) || 0;
+        const loanBalances = document.querySelectorAll(".loanBalance");
+        let totalLoanBalances = 0;
+        loanBalances.forEach((input) => {
+          totalLoanBalances += parseFloat(input.value) || 0;
+        });
 
-            // Change the border color of the loanAmount input field to red if empty, otherwise to black
-            if (loanAmountInput.value.trim() === "") {
-                loanAmountInput.style.borderColor = 'red';
-            } else {
-                loanAmountInput.style.borderColor = 'black';
-            }
+        const takeHomeAmount = loanAmount - totalLoanBalances;
+        const adjustedNetSalary = netSalary - allowanceAddition;
+        const oneThirdBasicPay = (basicPay / 3).toFixed(2);
+        const totalIncome = adjustedNetSalary + totalLoans;
+        const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
+        const ability = (debtServiceRatio - 300).toFixed(2);
+        const maxAffordableLoan = -PV(
+          interestRate / 100 / 12,
+          loanPeriod,
+          -parseFloat(ability)
+        );
 
-            const allowances = document.querySelectorAll(".allowance");
-            let totalAllowances = 0;
-            allowances.forEach((input) => {
-                totalAllowances += parseFloat(input.value) || 0;
-            });
-            const allowanceAddition = totalAllowances * 0.7;
+        // Round down maxAffordableLoan to the nearest thousand.
+        const roundedMaxAffordableLoan =
+          Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000;
+        const monthlyPayment = PMT(
+          interestRate,
+          loanPeriod,
+          loanAmount
+        ).toFixed(0);
+        const insurance = 0.00042 * loanAmount * loanPeriod;
+        const negotiationFee = (2.5 / 100) * takeHomeAmount;
+        const exciseDuty = (20 / 100) * negotiationFee;
+        const finalTakeHome =
+          takeHomeAmount - insurance - negotiationFee - exciseDuty;
 
-            const loans = document.querySelectorAll(".loan");
-            let totalLoans = 0;
-            loans.forEach((input) => {
-                totalLoans += parseFloat(input.value) || 0;
-            });
+        const loanAmountLabel = document.querySelector(
+          'label[for="loanAmount"]'
+        );
+        loanAmountLabel.textContent =
+          "Please input here Maximum Loan Qualified:";
+        loanAmountLabel.classList.add("blinking");
+        loanAmountLabel.style.color = "green";
 
-            const loanBalances = document.querySelectorAll(".loanBalance");
-            let totalLoanBalances = 0;
-            loanBalances.forEach((input) => {
-                totalLoanBalances += parseFloat(input.value) || 0;
-            });
+        setTimeout(function () {
+          loanAmountLabel.classList.remove("blinking");
+        }, 20000);
 
-            const takeHomeAmount = loanAmount - totalLoanBalances;
-            const adjustedNetSalary = netSalary - allowanceAddition;
-            const oneThirdBasicPay = (basicPay / 3).toFixed(2);
-            const totalIncome = adjustedNetSalary + totalLoans;
-            const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
-            const ability = (debtServiceRatio - 300).toFixed(2);
-            const maxAffordableLoan = -PV(interestRate / 100 / 12, loanPeriod, -parseFloat(ability));
-            const monthlyPayment = PMT(interestRate, loanPeriod, loanAmount).toFixed(0);
-            const insurance = 0.00042 * loanAmount * loanPeriod;
-            const negotiationFee = (2.5 / 100) * takeHomeAmount;
-            const exciseDuty = (20 / 100) * negotiationFee;
-            const finalTakeHome = takeHomeAmount - insurance - negotiationFee - exciseDuty;
+        resetBtn.addEventListener("click", function () {
+          netSalaryInput.value = "";
+          basicPayInput.value = "";
+          loanPeriodInput.value = "";
+          interestRateInput.value = "";
+          loanAmountInput.value = "";
+          customerNameInput.value = ""; // Clear Customer Name
+          calculationDateInput.value = ""; // Clear Calculation Date
 
-            const loanAmountLabel = document.querySelector('label[for="loanAmount"]');
-            loanAmountLabel.textContent = "Please input here Maximum Loan Qualified:";
-            loanAmountLabel.classList.add("blinking");
-            loanAmountLabel.style.color = "green";
+          const allowances = document.querySelectorAll(".allowance");
+          allowances.forEach((input) => {
+            input.value = "";
+          });
 
-            setTimeout(function () {
-                loanAmountLabel.classList.remove("blinking");
-            }, 20000);
+          const loans = document.querySelectorAll(".loan");
+          loans.forEach((input) => {
+            input.value = "";
+          });
 
-            resetBtn.addEventListener("click", function () {
-                netSalaryInput.value = '';
-                basicPayInput.value = '';
-                loanPeriodInput.value = '';
-                interestRateInput.value = '';
-                loanAmountInput.value = '';
-                customerNameInput.value = ''; // Clear Customer Name
-                calculationDateInput.value = ''; // Clear Calculation Date
+          const loanBalances = document.querySelectorAll(".loanBalance");
+          loanBalances.forEach((input) => {
+            input.value = "";
+          });
 
+          resultDiv.innerHTML = "";
 
-                const allowances = document.querySelectorAll(".allowance");
-                allowances.forEach((input) => {
-                    input.value = '';
-                });
+          const loanAmountLabel = document.querySelector(
+            'label[for="loanAmount"]'
+          );
+          loanAmountLabel.textContent = "Loan Amount:";
+          loanAmountLabel.style.color = "black";
+          loanAmountLabel.classList.remove("blinking");
+        });
 
-                const loans = document.querySelectorAll(".loan");
-                loans.forEach((input) => {
-                    input.value = '';
-                });
-
-                const loanBalances = document.querySelectorAll(".loanBalance");
-                loanBalances.forEach((input) => {
-                    input.value = '';
-                });
-
-                resultDiv.innerHTML = "";
-
-                const loanAmountLabel = document.querySelector('label[for="loanAmount"]');
-                loanAmountLabel.textContent = "Loan Amount:";
-                loanAmountLabel.style.color = "black";
-                loanAmountLabel.classList.remove("blinking");
-            });
-
-            const resultsHTML = `
+        const resultsHTML = `
                 <table>
                     <tr>
                         <th>Description</th>
@@ -599,7 +673,7 @@
                     </tr>
                     <tr>
                         <td>Maximum Loan Qualified</td>
-                        <td>KES ${Math.abs(maxAffordableLoan).toFixed(0)}</td>
+                        <td>KES ${roundedMaxAffordableLoan.toFixed(0)}</td>
                     </tr>
                     <tr>
                         <td>Initial Take Home Amount</td>
@@ -624,30 +698,30 @@
                 </table>
             `;
 
-            resultDiv.innerHTML = resultsHTML;
-        });
+        resultDiv.innerHTML = resultsHTML;
+      });
 
-        // Add event listener to change border color when loan amount is input
-        loanAmountInput.addEventListener("input", function () {
-            if (loanAmountInput.value.trim() !== "") {
-                loanAmountInput.style.borderColor = 'green';
-            } else {
-                loanAmountInput.style.borderColor = 'red';
-            }
-        });
+      // Add event listener to change border color when loan amount is input
+      loanAmountInput.addEventListener("input", function () {
+        if (loanAmountInput.value.trim() !== "") {
+          loanAmountInput.style.borderColor = "green";
+        } else {
+          loanAmountInput.style.borderColor = "red";
+        }
+      });
 
-        // Function to generate and download PDF
-        saveResultsBtn.addEventListener('click', function() {
-            const pdfDoc = new jspdf.jsPDF();
-            const resultElement = document.getElementById('result');
-            const customerName = customerNameInput.value;
-            const calculationDate = calculationDateInput.value;
+      // Function to generate and download PDF
+      saveResultsBtn.addEventListener("click", function () {
+        const pdfDoc = new jspdf.jsPDF();
+        const resultElement = document.getElementById("result");
+        const customerName = customerNameInput.value;
+        const calculationDate = calculationDateInput.value;
 
-            // Get current time
-            const now = new Date();
-            const currentTime = now.toLocaleTimeString(); // Format time as HH:MM:SS AM/PM or similar
+        // Get current time
+        const now = new Date();
+        const currentTime = now.toLocaleTimeString(); // Format time as HH:MM:SS AM/PM or similar
 
-            let pdfContent = `
+        let pdfContent = `
                 <div style="font-size: 16px; margin-bottom: 10px; color: #000 !important;">
                     <p><strong>Customer Name:</strong> ${customerName}</p>
                     <p><strong>Calculation Date:</strong> ${calculationDate} <strong>Time:</strong> ${currentTime}</p>
@@ -655,18 +729,18 @@
                 <div>${resultElement.innerHTML}</div>
             `;
 
-            pdfDoc.html(pdfContent, {
-                callback: function (pdf) {
-                    pdf.save('loan_summary.pdf');
-                },
-                margin: [10, 10, 10, 10],
-                autoPaging: 'text',
-                x: 0,
-                y: 0,
-                width: 190, //target width in the PDF document
-                windowWidth: 675 //window width in CSS pixels
-            });
+        pdfDoc.html(pdfContent, {
+          callback: function (pdf) {
+            pdf.save("loan_summary.pdf");
+          },
+          margin: [10, 10, 10, 10],
+          autoPaging: "text",
+          x: 0,
+          y: 0,
+          width: 190, //target width in the PDF document
+          windowWidth: 675, //window width in CSS pixels
         });
+      });
     </script>
-</body>
+  </body>
 </html>
