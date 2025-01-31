@@ -576,7 +576,7 @@
             ).toFixed(0);
             const insurance = 0.00042 * loanAmount * loanPeriod;
             const negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
-             const exciseDuty = (20 / 100) * takeHomeAmount;
+             const exciseDuty = (20 / 100) * negotiationFee;
             const finalTakeHome =
                 takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
 
