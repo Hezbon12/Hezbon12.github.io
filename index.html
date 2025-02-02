@@ -281,7 +281,7 @@
         }
 
         .icon-placeholder input[type="number"] {
-            padding-left: 10px; /* Adjust padding to make space for the icon */
+            padding-left: 30px; /* Adjust padding to make space for the icon */
         }
 
         .icon-placeholder .fa-calendar,
@@ -326,6 +326,14 @@
         #saveResultsBtn:hover {
             background-color: #218838; /* Darker green on hover */
         }
+
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .error-border {
+            border-color: red !important;
+        }
     </style>
     <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -345,10 +353,10 @@
                 Welcome to the loan calculator! Please enter your details below to
                 calculate your loan.
             </label><br /><br />
-            <label for="basicPay">Enter your Basic Pay per month:</label>
+            <label for="basicPay" class="required-field">Enter your Basic Pay per month:</label>
             <input type="number" id="basicPay" name="basicPay" placeholder="KSH"><br /><br />
 
-            <label for="netSalary">Enter your Net Salary per month:</label>
+            <label for="netSalary" class="required-field">Enter your Net Salary per month:</label>
             <input type="number" id="netSalary" placeholder="KSH"><br />
 
             <h2>Non-Permanent Allowances:</h2>
@@ -378,25 +386,25 @@
             </div>
             <button id="addLoanBalance">Add Loan Balance</button><br /><br />
 
-            <label for="loanPeriod">Enter the Loan Period (Months):</label>
+            <label for="loanPeriod" class="required-field">Enter the Loan Period (Months):</label>
             <div class="icon-placeholder">
                 <input type="number" id="loanPeriod" placeholder="" />
                 <i class="fas fa-calendar"></i>
             </div><br /><br />
 
-            <label for="interestRate">Enter the Interest Rate (%):</label>
+            <label for="interestRate" class="required-field">Enter the Interest Rate (%):</label>
             <div class="icon-placeholder">
                 <input type="number" id="interestRate" placeholder="" />
                 <i class="fas fa-percent"></i>
             </div><br /><br />
             
-            <label for="negotiationFee">Enter the Negotiation fees Rate (%):</label>
+            <label for="negotiationFee" class="required-field">Enter the Negotiation fees Rate (%):</label>
             <div class="icon-placeholder">
                 <input type="number" id="negotiationFee" placeholder="" />
                 <i class="fas fa-percent"></i>
             </div><br />
 
-            <label for="ledgerFee">Enter the Monthly ledger fee (KES):</label>
+            <label for="ledgerFee" class="required-field">Enter the Monthly ledger fee (KES):</label>
             <div class="icon-placeholder">
               <input type="number" id="ledgerFee" placeholder="KSH" />
                 
@@ -519,6 +527,31 @@
         }
 
         calculateBtn.addEventListener("click", function () {
+             const requiredFields = [
+                basicPayInput,
+                netSalaryInput,
+                loanPeriodInput,
+                interestRateInput,
+                negotiationFeeInput,
+                ledgerFeeInput
+            ];
+            let hasErrors = false;
+
+            requiredFields.forEach(field => {
+                 if (!field.value.trim()) {
+                     field.classList.add('error-border');
+                     hasErrors = true;
+                } else {
+                     field.classList.remove('error-border');
+                 }
+            });
+
+             if (hasErrors) {
+                alert("Please fill all the required fields!");
+                return; // Stop calculation if there are errors
+            }
+
+
             const netSalary = parseFloat(netSalaryInput.value) || 0;
             const basicPay = parseFloat(basicPayInput.value) || 0;
             const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
@@ -526,6 +559,7 @@
             const loanAmount = parseFloat(loanAmountInput.value) || 0;
             const negotiationFeePercentage = parseFloat(negotiationFeeInput.value) || 0;
             const ledgerFee = parseFloat(ledgerFeeInput.value) || 0;
+
 
             // Change the border color of the loanAmount input field to red if empty, otherwise to black
             if (loanAmountInput.value.trim() === "") {
