@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -338,6 +339,43 @@
         .error-border {
             border-color: red !important;
         }
+
+          /* Tooltip styles */
+        .tooltip {
+          position: relative;
+          display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 250px;
+          background-color: #555;
+          color: #fff;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px;
+          position: absolute;
+          z-index: 1;
+          bottom: 125%;
+          left: 50%;
+          margin-left: -125px;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+          opacity: 1;
+        }
     </style>
     <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -403,15 +441,16 @@
             </div><br /><br />
             
             <label for="negotiationFee" class="required-field">Enter the Negotiation fees Rate (%):</label>
-            <div class="icon-placeholder">
+            <div class="icon-placeholder tooltip">
                 <input type="number" id="negotiationFee" placeholder="Enter percentage" />
                 <i class="fas fa-percent"></i>
+                <span class="tooltiptext">The Negotiation percentage rate is 2% for private companies and 2.5% for parastatals and govt agencies.</span>
             </div><br />
 
             <label for="ledgerFee" class="required-field">Enter the Monthly ledger fee (KES):</label>
-            <div class="icon-placeholder">
+            <div class="icon-placeholder tooltip">
               <input type="number" id="ledgerFee" placeholder="Enter amount in KSH" />
-                
+              <span class="tooltiptext">The monthly ledger fee was raised from 200 to 300.</span>
             </div><br />
 
             <label for="loanAmount">Enter the Loan Amount:</label>
@@ -530,8 +569,25 @@
             }
         }
 
+        let calculatedMaxAffordableLoan = 0;
+        let calculatedFinalTakeHome = 0;
+        let adjustedNetSalary = 0;
+        let totalLoans = 0;
+        let oneThirdBasicPay = 0;
+        let totalIncome = 0;
+        let debtServiceRatio = 0;
+        let ability = 0;
+        let monthlyPayment = 0;
+        let takeHomeAmount = 0;
+        let insurance = 0;
+        let negotiationFee = 0;
+        let ledgerFeeVar = 0;
+        let exciseDuty = 0;
+        let loanAmount = 0;
+        let maxAffordableLoan = 0;
+
         calculateBtn.addEventListener("click", function () {
-             const requiredFields = [
+            const requiredFields = [
                 basicPayInput,
                 netSalaryInput,
                 loanPeriodInput,
@@ -560,9 +616,9 @@
             const basicPay = parseFloat(basicPayInput.value) || 0;
             const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
             const interestRate = parseFloat(interestRateInput.value) || 0;
-            const loanAmount = parseFloat(loanAmountInput.value) || 0;
+             loanAmount = parseFloat(loanAmountInput.value) || 0;
             const negotiationFeePercentage = parseFloat(negotiationFeeInput.value) || 0;
-            const ledgerFee = parseFloat(ledgerFeeInput.value) || 0;
+             ledgerFeeVar = parseFloat(ledgerFeeInput.value) || 0;
 
 
             // Change the border color of the loanAmount input field to red if empty, otherwise to black
@@ -573,14 +629,14 @@
             }
 
             const allowances = document.querySelectorAll(".allowance");
-            let totalAllowances = 0;
+            totalAllowances = 0;
             allowances.forEach((input) => {
                 totalAllowances += parseFloat(input.value) || 0;
             });
             const allowanceAddition = totalAllowances * 0.7;
 
             const loans = document.querySelectorAll(".loan");
-            let totalLoans = 0;
+            totalLoans = 0;
             loans.forEach((input) => {
                 totalLoans += parseFloat(input.value) || 0;
             });
@@ -591,32 +647,31 @@
                 totalLoanBalances += parseFloat(input.value) || 0;
             });
 
-            const takeHomeAmount = loanAmount - totalLoanBalances;
-            const adjustedNetSalary = netSalary - allowanceAddition;
-            const oneThirdBasicPay = (basicPay / 3).toFixed(2);
-            const totalIncome = adjustedNetSalary + totalLoans;
-            const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
-            const ability = (debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)).toFixed(2);
-             const maxAffordableLoan = -PV(
+            takeHomeAmount = loanAmount - totalLoanBalances;
+            adjustedNetSalary = netSalary - allowanceAddition;
+            oneThirdBasicPay = (basicPay / 3).toFixed(2);
+            totalIncome = adjustedNetSalary + totalLoans;
+            debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
+            ability = (debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)).toFixed(2);
+              maxAffordableLoan = -PV(
                 interestRate / 100 / 12,
                 loanPeriod,
-                -parseFloat(ability)
+                -parseFloat(ability || 0)
             );
 
 
             // Round down maxAffordableLoan to the nearest thousand.
-            const roundedMaxAffordableLoan =
-                Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000;
-            const monthlyPayment = PMT(
+             calculatedMaxAffordableLoan = isFinite(maxAffordableLoan) ? Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000 : 0;
+            monthlyPayment = PMT(
                 interestRate,
                 loanPeriod,
                 loanAmount
             ).toFixed(0);
-            const insurance = 0.00042 * loanAmount * loanPeriod;
-            const negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
-             const exciseDuty = (20 / 100) * negotiationFee;
-            const finalTakeHome =
-                takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
+            insurance = 0.00042 * loanAmount * loanPeriod;
+            negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
+             exciseDuty = (20 / 100) * negotiationFee;
+            calculatedFinalTakeHome =
+                takeHomeAmount - insurance - negotiationFee - ledgerFeeVar - exciseDuty;
 
             const loanAmountLabel = document.querySelector(
                 'label[for="loanAmount"]'
@@ -630,43 +685,19 @@
                 loanAmountLabel.classList.remove("blinking");
             }, 20000);
 
-            resetBtn.addEventListener("click", function () {
-                netSalaryInput.value = "";
-                basicPayInput.value = "";
-                loanPeriodInput.value = "";
-                interestRateInput.value = "";
-                loanAmountInput.value = "";
-                customerNameInput.value = ""; // Clear Customer Name
-                calculationDateInput.value = ""; // Clear Calculation Date
-                 negotiationFeeInput.value = "";
-                 ledgerFeeInput.value = "";
+            updateResultsDisplay();
 
-                const allowances = document.querySelectorAll(".allowance");
-                allowances.forEach((input) => {
-                    input.value = "";
-                });
+        });
+          function updateResultsDisplay() {
+               maxAffordableLoan = -PV(
+                interestRate / 100 / 12,
+                loanPeriod,
+                -parseFloat(ability || 0)
+            );
+            calculatedMaxAffordableLoan = isFinite(maxAffordableLoan) ? Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000 : 0;
 
-                const loans = document.querySelectorAll(".loan");
-                loans.forEach((input) => {
-                    input.value = "";
-                });
 
-                const loanBalances = document.querySelectorAll(".loanBalance");
-                loanBalances.forEach((input) => {
-                    input.value = "";
-                });
-
-                resultDiv.innerHTML = "";
-
-                const loanAmountLabel = document.querySelector(
-                    'label[for="loanAmount"]'
-                );
-                loanAmountLabel.textContent = "Loan Amount:";
-                loanAmountLabel.style.color = "black";
-                loanAmountLabel.classList.remove("blinking");
-            });
-
-            const resultsHTML = `
+           const resultsHTML = `
                 <table>
                     <tr>
                         <th>Description</th>
@@ -702,7 +733,10 @@
                     </tr>
                     <tr>
                         <td>Maximum Loan Qualified</td>
-                        <td>KES ${roundedMaxAffordableLoan.toFixed(0)}</td>
+                         <td> <div class="highlight-container">
+                                <span class="highlight-text">KES ${calculatedMaxAffordableLoan.toFixed(0)}</span>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Initial Take Home Amount</td>
@@ -718,7 +752,7 @@
                     </tr>
                        <tr>
                         <td>Ledger Fee</td>
-                        <td>KES ${ledgerFee.toFixed(2)}</td>
+                        <td>KES ${ledgerFeeVar.toFixed(2)}</td>
                     </tr>
                        <tr>
                         <td>Excise Duty</td>
@@ -726,13 +760,53 @@
                     </tr>
                     <tr>
                         <td>Final Take Home Amount</td>
-                        <td>KES ${finalTakeHome.toFixed(0)}</td>
+                        <td><div class="highlight-container-takehome">
+                                <span class="highlight-text-takehome">KES ${calculatedFinalTakeHome.toFixed(0)}</span>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             `;
 
             resultDiv.innerHTML = resultsHTML;
-        });
+        }
+
+
+        resetBtn.addEventListener("click", function () {
+                netSalaryInput.value = "";
+                basicPayInput.value = "";
+                loanPeriodInput.value = "";
+                interestRateInput.value = "";
+                loanAmountInput.value = "";
+                customerNameInput.value = ""; // Clear Customer Name
+                calculationDateInput.value = ""; // Clear Calculation Date
+                 negotiationFeeInput.value = "";
+                 ledgerFeeInput.value = "";
+
+                const allowances = document.querySelectorAll(".allowance");
+                allowances.forEach((input) => {
+                    input.value = "";
+                });
+
+                const loans = document.querySelectorAll(".loan");
+                loans.forEach((input) => {
+                    input.value = "";
+                });
+
+                const loanBalances = document.querySelectorAll(".loanBalance");
+                loanBalances.forEach((input) => {
+                    input.value = "";
+                });
+
+                resultDiv.innerHTML = "";
+
+                const loanAmountLabel = document.querySelector(
+                    'label[for="loanAmount"]'
+                );
+                loanAmountLabel.textContent = "Loan Amount:";
+                loanAmountLabel.style.color = "black";
+                loanAmountLabel.classList.remove("blinking");
+            });
 
         // Add event listener to change border color when loan amount is input
         loanAmountInput.addEventListener("input", function () {
@@ -741,6 +815,55 @@
             } else {
                 loanAmountInput.style.borderColor = "red";
             }
+                 loanAmount = parseFloat(loanAmountInput.value) || 0;
+                const netSalary = parseFloat(netSalaryInput.value) || 0;
+                const basicPay = parseFloat(basicPayInput.value) || 0;
+                 loanPeriod = parseFloat(loanPeriodInput.value) || 0;
+                const interestRate = parseFloat(interestRateInput.value) || 0;
+                const negotiationFeePercentage = parseFloat(negotiationFeeInput.value) || 0;
+                 ledgerFeeVar = parseFloat(ledgerFeeInput.value) || 0;
+
+                 const allowances = document.querySelectorAll(".allowance");
+                   totalAllowances = 0;
+                    allowances.forEach((input) => {
+                        totalAllowances += parseFloat(input.value) || 0;
+                    });
+                    const allowanceAddition = totalAllowances * 0.7;
+
+                    const loans = document.querySelectorAll(".loan");
+                     totalLoans = 0;
+                    loans.forEach((input) => {
+                        totalLoans += parseFloat(input.value) || 0;
+                    });
+
+                    const loanBalances = document.querySelectorAll(".loanBalance");
+                    let totalLoanBalances = 0;
+                    loanBalances.forEach((input) => {
+                        totalLoanBalances += parseFloat(input.value) || 0;
+                    });
+                     takeHomeAmount = loanAmount - totalLoanBalances;
+                         adjustedNetSalary = netSalary - allowanceAddition;
+                         oneThirdBasicPay = (basicPay / 3).toFixed(2);
+                         totalIncome = adjustedNetSalary + totalLoans;
+                         debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
+                         ability = (debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)).toFixed(2);
+                 maxAffordableLoan = -PV(
+                            interestRate / 100 / 12,
+                            loanPeriod,
+                            -parseFloat(ability || 0)
+                        );
+                 calculatedMaxAffordableLoan = isFinite(maxAffordableLoan) ? Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000 : 0;
+                 monthlyPayment = PMT(
+                interestRate,
+                loanPeriod,
+                loanAmount
+            ).toFixed(0);
+              insurance = 0.00042 * loanAmount * loanPeriod;
+             negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
+            exciseDuty = (20 / 100) * negotiationFee;
+            calculatedFinalTakeHome =
+                takeHomeAmount - insurance - negotiationFee - ledgerFeeVar - exciseDuty ;
+              updateResultsDisplay();
         });
 
         // Function to generate and download PDF
@@ -777,4 +900,3 @@
     </script>
 </body>
 </html>
-
