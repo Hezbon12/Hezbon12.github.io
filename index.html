@@ -457,7 +457,7 @@
         const basicPayInput = document.getElementById("basicPay");
         const loanPeriodInput = document.getElementById("loanPeriod");
         const interestRateInput = document.getElementById("interestRate");
-         const loanAmountInput = document.getElementById("loanAmount");
+        const loanAmountInput = document.getElementById("loanAmount");
         const saveResultsBtn = document.getElementById("saveResultsBtn"); // Get Save Results Button
         const customerNameInput = document.getElementById("customerName"); // Get Customer Name Input
         const calculationDateInput = document.getElementById("calculationDate"); // Get Calculation Date Input
@@ -520,7 +520,7 @@
         }
 
         function PV(rate, nper, pmt, fv = 0, type = 0) {
-           if (rate === 0) {
+            if (rate === 0) {
                 return -(pmt * nper + fv);
             } else {
                 const pow = Math.pow(1 + rate, nper);
@@ -530,7 +530,7 @@
             }
         }
 
-         calculateBtn.addEventListener("click", function () {
+        calculateBtn.addEventListener("click", function () {
              const requiredFields = [
                 basicPayInput,
                 netSalaryInput,
@@ -555,6 +555,7 @@
                 return; // Stop calculation if there are errors
             }
 
+
             const netSalary = parseFloat(netSalaryInput.value) || 0;
             const basicPay = parseFloat(basicPayInput.value) || 0;
             const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
@@ -564,7 +565,7 @@
             const ledgerFee = parseFloat(ledgerFeeInput.value) || 0;
 
 
-           // Change the border color of the loanAmount input field to red if empty, otherwise to black
+            // Change the border color of the loanAmount input field to red if empty, otherwise to black
             if (loanAmountInput.value.trim() === "") {
                 loanAmountInput.style.borderColor = "red";
             } else {
@@ -578,7 +579,6 @@
             });
             const allowanceAddition = totalAllowances * 0.7;
 
-
             const loans = document.querySelectorAll(".loan");
             let totalLoans = 0;
             loans.forEach((input) => {
@@ -590,13 +590,14 @@
             loanBalances.forEach((input) => {
                 totalLoanBalances += parseFloat(input.value) || 0;
             });
-           const takeHomeAmount = loanAmount - totalLoanBalances;
+
+            const takeHomeAmount = loanAmount - totalLoanBalances;
             const adjustedNetSalary = netSalary - allowanceAddition;
             const oneThirdBasicPay = (basicPay / 3).toFixed(2);
             const totalIncome = adjustedNetSalary + totalLoans;
             const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
             const ability = (debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)).toFixed(2);
-            const maxAffordableLoan = -PV(
+             const maxAffordableLoan = -PV(
                 interestRate / 100 / 12,
                 loanPeriod,
                 -parseFloat(ability)
@@ -606,16 +607,16 @@
             // Round down maxAffordableLoan to the nearest thousand.
             const roundedMaxAffordableLoan =
                 Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000;
-             const monthlyPayment = PMT(
+            const monthlyPayment = PMT(
                 interestRate,
                 loanPeriod,
-                roundedMaxAffordableLoan
+                loanAmount
             ).toFixed(0);
-            const insurance = 0.00042 * roundedMaxAffordableLoan * loanPeriod;
-           const negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
-            const exciseDuty = (20 / 100) * negotiationFee;
+            const insurance = 0.00042 * loanAmount * loanPeriod;
+            const negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
+             const exciseDuty = (20 / 100) * negotiationFee;
             const finalTakeHome =
-               takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
+                takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
 
             const loanAmountLabel = document.querySelector(
                 'label[for="loanAmount"]'
@@ -624,7 +625,7 @@
                 "Please input here Maximum Loan Qualified:";
             loanAmountLabel.classList.add("blinking");
             loanAmountLabel.style.color = "green";
-             loanAmountInput.value=roundedMaxAffordableLoan;
+
             setTimeout(function () {
                 loanAmountLabel.classList.remove("blinking");
             }, 20000);
@@ -703,7 +704,7 @@
                         <td>Maximum Loan Qualified</td>
                         <td>KES ${roundedMaxAffordableLoan.toFixed(0)}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>Initial Take Home Amount</td>
                          <td>KES ${takeHomeAmount.toFixed(2)}</td>
                     </tr>
@@ -732,7 +733,8 @@
 
             resultDiv.innerHTML = resultsHTML;
         });
-         // Add event listener to change border color when loan amount is input
+
+        // Add event listener to change border color when loan amount is input
         loanAmountInput.addEventListener("input", function () {
             if (loanAmountInput.value.trim() !== "") {
                 loanAmountInput.style.borderColor = "green";
@@ -740,6 +742,7 @@
                 loanAmountInput.style.borderColor = "red";
             }
         });
+
         // Function to generate and download PDF
         saveResultsBtn.addEventListener("click", function () {
             const pdfDoc = new jspdf.jsPDF();
