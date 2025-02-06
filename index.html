@@ -621,6 +621,7 @@
              const exciseDuty = (20 / 100) * negotiationFee;
             const finalTakeHome =
                 takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
+              const newNetSalary = totalIncome - parseFloat(monthlyPayment) - ledgerFee;
 
             const loanAmountLabel = document.querySelector(
                 'label[for="loanAmount"]'
@@ -731,6 +732,10 @@
                     <tr>
                         <td>Final Take Home Amount</td>
                         <td>KES ${finalTakeHome.toFixed(0)}</td>
+                    </tr>
+                    <tr>
+                        <td>New Net Salary</td>
+                        <td>KES ${newNetSalary.toFixed(2)}</td>
                     </tr>
                 </table>
             `;
