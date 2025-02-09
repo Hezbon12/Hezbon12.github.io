@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
             flex-direction: column;
             margin: 0;
             background-image: url("/pic-article-01.jpg");
-            background-size: cover;
+            background-size: 1850px 2500px;
             background-repeat: no-repeat;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -98,7 +99,8 @@
 
         label {
             font-weight: bold;
-            margin-bottom: 5px; /* Reduced label margin */
+            margin-bottom: 5px;
+            /* Reduced label margin */
             display: block;
         }
 
@@ -113,8 +115,9 @@
             font-size: 16px;
             color: #333;
             transition: background-color 0.3s ease, color 0.3s ease,
-            border-color 0.3s ease;
-            margin-bottom: 5px; /* Added margin to input fields */
+                border-color 0.3s ease;
+            margin-bottom: 5px;
+            /* Added margin to input fields */
         }
 
         input[type="number"]::placeholder,
@@ -143,14 +146,20 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 16px;
-            margin-top: 2px; /* Reduced margin-top to reduce space between buttons */
-            margin-bottom: 2px; /* Added margin-bottom for spacing consistency */
+            margin-top: 2px;
+            /* Reduced margin-top to reduce space between buttons */
+            margin-bottom: 2px;
+            /* Added margin-bottom for spacing consistency */
         }
 
         button:hover,
         #resetBtn:hover,
         #saveResultsBtn:hover,
-        #themeToggle:hover {
+        #themeToggle:hover,
+        button:focus,
+        #resetBtn:focus,
+        #saveResultsBtn:focus,
+        #themeToggle:focus {
             background-color: #0062cc;
         }
 
@@ -170,10 +179,12 @@
         }
 
         @keyframes blink {
+
             0%,
             100% {
                 opacity: 1;
             }
+
             50% {
                 opacity: 0;
             }
@@ -186,7 +197,8 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 10px; /* Reduced table top margin */
+            margin-top: 10px;
+            /* Reduced table top margin */
         }
 
         th,
@@ -246,7 +258,8 @@
             transition: background-color 0.3s ease;
         }
 
-        #resetBtn:hover {
+        #resetBtn:hover,
+        #resetBtn:focus {
             background-color: #dc143c;
         }
 
@@ -281,11 +294,13 @@
         }
 
         .icon-placeholder input[type="number"] {
-            padding-left: 30px; /* Adjust padding to make space for the icon */
+            padding-left: 30px;
+            /* Adjust padding to make space for the icon */
         }
 
-	.icon-placeholder #ledgerFee {
-            padding-left: 10px; /* Adjust padding to make space for the icon */
+        .icon-placeholder #ledgerFee {
+            padding-left: 10px;
+            /* Adjust padding to make space for the icon */
         }
 
         .icon-placeholder .fa-calendar,
@@ -311,30 +326,36 @@
             transition: background-color 0.3s ease;
         }
 
-        #themeToggle:hover {
+        #themeToggle:hover,
+        #themeToggle:focus {
             background-color: #0056b3;
         }
 
         /* Save Results Button */
         #saveResultsBtn {
-            background-color: #28a745; /* Green color for save button */
+            background-color: #28a745;
+            /* Green color for save button */
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 10px; /* Add some space above the button */
+            margin-top: 10px;
+            /* Add some space above the button */
         }
 
-        #saveResultsBtn:hover {
-            background-color: #218838; /* Darker green on hover */
+        #saveResultsBtn:hover,
+        #saveResultsBtn:focus {
+            background-color: #218838;
+            /* Darker green on hover */
         }
 
         .required-field::after {
             content: " *";
             color: red;
         }
+
         .error-border {
             border-color: red !important;
         }
@@ -346,83 +367,92 @@
     <!-- DOMPurify library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 </head>
+
 <body>
     <!-- Dark Mode Toggle Button -->
     <button id="themeToggle">Toggle Dark Mode</button>
 
     <div class="container">
         <div class="input-section">
-            <img src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/Ahezbon11.PNG?raw=true" alt="Loan Calculator Logo" id="logo" />
+            <img src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/Ahezbon11.PNG?raw=true"
+                alt="Loan Calculator Logo" id="logo" />
             <label>
                 Welcome to the loan calculator! Please enter your details below to
                 calculate your loan.
             </label><br /><br />
-            <label for="basicPay" class="required-field">Enter your Basic Pay per month:</label>
-            <input type="number" id="basicPay" name="basicPay" placeholder="Enter amount in KSH"><br /><br />
+            <form>
+                <label for="basicPay" class="required-field">Enter your Basic Pay per month:</label>
+                <input type="number" id="basicPay" name="basicPay" placeholder="Enter amount in KSH" required><br><br>
 
-            <label for="netSalary" class="required-field">Enter your Net Salary per month:<br>
-                <span style="font-size: 0.8em; font-style: italic;">If the NSSF amount on the payslip reads KSH 360 subtract KSH 300 from the netpay and if it reads KSH 2160 subtract another 2160 from netpay. This applies until the time February 2025 payslips will be out.</span></label>
-            <input type="number" id="netSalary" placeholder="Enter amount in KSH"><br />
+                <label for="netSalary" class="required-field">Enter your Net Salary per month:<br>
+                    <span style="font-size: 0.8em; font-style: italic;">If the NSSF amount on the payslip reads KSH
+                        360 subtract KSH 300 from the netpay and if it reads KSH 2160 subtract another 2160 from
+                        netpay. This applies until the time February 2025 payslips will be out.</span></label>
+                <input type="number" id="netSalary" placeholder="Enter amount in KSH" required><br>
 
-            <h2>Non-Permanent Allowances:</h2>
-            <div id="allowancesContainer">
-                <div class="allowanceInput">
-                    <label for="allowance1">Enter the Allowance:<br>
-                <span style="font-size: 0.8em; font-style: italic;">Inconsistent allowances like Hardship Allowance*, Salary ARREARS, Leave Allowance, Telephone bills e.t.c</span></label>
-                    <input type="number" class="allowance" id="allowance1" placeholder="Enter amount in KSH" />
+                <h2>Non-Permanent Allowances:</h2>
+                <div id="allowancesContainer">
+                    <div class="allowanceInput">
+                        <label for="allowance1">Enter the Allowance:<br>
+                            <span style="font-size: 0.8em; font-style: italic;">Inconsistent allowances like Hardship
+                                Allowance*, Salary ARREARS, Leave Allowance, Telephone bills e.t.c</span></label>
+                        <input type="number" class="allowance" id="allowance1" placeholder="Enter amount in KSH" />
+                    </div>
                 </div>
-            </div>
-            <button id="addAllowance">Add Allowance</button><br />
+                <button type="button" id="addAllowance">Add Allowance</button><br />
 
-            <h2>Loans to be bought off:</h2>
-            <div id="loansContainer">
-                <div class="loanInput">
-                    <label for="loan1">Enter the Loan installment:</label>
-                    <input type="number" class="loan" id="loan1" placeholder="Enter amount in KSH" />
+                <h2>Loans to be bought off:</h2>
+                <div id="loansContainer">
+                    <div class="loanInput">
+                        <label for="loan1">Enter the Loan installment:</label>
+                        <input type="number" class="loan" id="loan1" placeholder="Enter amount in KSH" />
+                    </div>
                 </div>
-            </div>
-            <button id="addLoan">Add Loan</button><br />
+                <button type="button" id="addLoan">Add Loan</button><br />
 
-            <h2>Loan Balances:</h2>
-            <div id="loanBalancesContainer">
-                <div class="loanBalanceInput">
-                    <label for="loanBalance1">Enter the Loan Balance:</label>
-                    <input type="number" class="loanBalance" id="loanBalance1" placeholder="Enter amount in KSH" />
+                <h2>Loan Balances:</h2>
+                <div id="loanBalancesContainer">
+                    <div class="loanBalanceInput">
+                        <label for="loanBalance1">Enter the Loan Balance:</label>
+                        <input type="number" class="loanBalance" id="loanBalance1" placeholder="Enter amount in KSH" />
+                    </div>
                 </div>
-            </div>
-            <button id="addLoanBalance">Add Loan Balance</button><br /><br />
+                <button type="button" id="addLoanBalance">Add Loan Balance</button><br /><br />
 
-            <label for="loanPeriod" class="required-field">Enter the Loan Period (Months):</label>
-            <div class="icon-placeholder">
-                <input type="number" id="loanPeriod" placeholder="Enter No. of Months" />
-                <i class="fas fa-calendar"></i>
-            </div><br /><br />
+                <label for="loanPeriod" class="required-field">Enter the Loan Period (Months):</label>
+                <div class="icon-placeholder">
+                    <input type="number" id="loanPeriod" placeholder="Enter No. of Months" required />
+                    <i class="fas fa-calendar"></i>
+                </div><br /><br />
 
-            <label for="interestRate" class="required-field">Enter the Loan Interest Rate (%):</label>
-            <div class="icon-placeholder">
-                <input type="number" id="interestRate" placeholder="Enter percentage" />
-                <i class="fas fa-percent"></i>
-            </div><br /><br />
-            
-            <label for="negotiationFee" class="required-field">Enter the Negotiation fees Rate (%):<br>
-             <span style="font-size: 0.8em; font-style: italic;">The negotiation % rate for private companies is 2% while that of government entities is 2.5%</span></label>
-            <div class="icon-placeholder">
-                <input type="number" id="negotiationFee" placeholder="Enter percentage" />
-                <i class="fas fa-percent"></i>
-            </div><br />
+                <label for="interestRate" class="required-field">Enter the Loan Interest Rate (%):</label>
+                <div class="icon-placeholder">
+                    <input type="number" id="interestRate" placeholder="Enter percentage" required />
+                    <i class="fas fa-percent"></i>
+                </div><br /><br />
 
-            <label for="ledgerFee" class="required-field">Enter the Monthly ledger fee (KES):<br>
-                <span style="font-size: 0.8em; font-style: italic;">The monthly ledger fee/cost of credit is KSH 300 while that of the Judiciary is KSH 2,300</span></label>
-            <div class="icon-placeholder">
-              <input type="number" id="ledgerFee" placeholder="Enter amount in KSH" />
-                
-            </div><br />
+                <label for="negotiationFee" class="required-field">Enter the Negotiation fees Rate (%):<br>
+                    <span style="font-size: 0.8em; font-style: italic;">The negotiation % rate for private companies
+                        is 2% while that of government entities is 2.5%</span></label>
+                <div class="icon-placeholder">
+                    <input type="number" id="negotiationFee" placeholder="Enter percentage" required />
+                    <i class="fas fa-percent"></i>
+                </div><br />
 
-            <label for="loanAmount">Enter the Loan Amount:</label>
-            <input type="number" id="loanAmount" placeholder="Enter amount in KSH"><br />
+                <label for="ledgerFee" class="required-field">Enter the Monthly ledger fee (KES):<br>
+                    <span style="font-size: 0.8em; font-style: italic;">The monthly ledger fee/cost of credit is KSH
+                        300 while that of the Judiciary is KSH 2,300</span></label>
+                <div class="icon-placeholder">
+                    <input type="number" id="ledgerFee" placeholder="Enter amount in KSH" required />
 
-            <button id="calculateBtn">Calculate</button><br />
-            <button id="resetBtn">Reset</button><br /><br />
+                </div><br />
+
+                <label for="loanAmount">Enter the Loan Amount:</label>
+                <input type="number" id="loanAmount" placeholder="Enter amount in KSH"><br />
+
+                <button type="button" id="calculateBtn">Calculate</button><br />
+                <button type="button" id="resetBtn">Reset</button><br /><br />
+            </form>
         </div>
         <div class="results-section">
             <h2>Loan Summary:</h2>
@@ -434,7 +464,7 @@
 
             <div id="result"></div>
             <!-- Save Results Button -->
-            <button id="saveResultsBtn">Save Results</button>
+            <button type="button" id="saveResultsBtn">Save Results</button>
         </div>
     </div>
     <footer>
@@ -498,13 +528,9 @@
 
             newInputDiv.className = `${type}Input`;
             newInputDiv.innerHTML = `
-                <label for="${id}">${
-                type.charAt(0).toUpperCase() + type.slice(1)
-            }:</label>
+                <label for="${id}">${type.charAt(0).toUpperCase() + type.slice(1)}:</label>
                 <input type="number" class="${type}" id="${id}" placeholder="KSH">
-                <button class="remove${
-                type.charAt(0).toUpperCase() + type.slice(1)
-            }">Remove</button>
+                <button type="button" class="remove${type.charAt(0).toUpperCase() + type.slice(1)}">Remove</button>
             `;
 
             container.appendChild(newInputDiv);
@@ -535,7 +561,7 @@
         }
 
         calculateBtn.addEventListener("click", function () {
-             const requiredFields = [
+            const requiredFields = [
                 basicPayInput,
                 netSalaryInput,
                 loanPeriodInput,
@@ -546,15 +572,15 @@
             let hasErrors = false;
 
             requiredFields.forEach(field => {
-                 if (!field.value.trim()) {
-                     field.classList.add('error-border');
-                     hasErrors = true;
+                if (!field.value.trim()) {
+                    field.classList.add('error-border');
+                    hasErrors = true;
                 } else {
-                     field.classList.remove('error-border');
-                 }
+                    field.classList.remove('error-border');
+                }
             });
 
-             if (hasErrors) {
+            if (hasErrors) {
                 alert("Please fill all the required fields!");
                 return; // Stop calculation if there are errors
             }
@@ -601,7 +627,7 @@
             const totalIncome = adjustedNetSalary + totalLoans;
             const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
             const ability = (debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)).toFixed(2);
-             const maxAffordableLoan = -PV(
+            const maxAffordableLoan = -PV(
                 interestRate / 100 / 12,
                 loanPeriod,
                 -parseFloat(ability)
@@ -618,10 +644,10 @@
             ).toFixed(0);
             const insurance = 0.00042 * loanAmount * loanPeriod;
             const negotiationFee = (negotiationFeePercentage / 100) * takeHomeAmount;
-             const exciseDuty = (20 / 100) * negotiationFee;
+            const exciseDuty = (20 / 100) * negotiationFee;
             const finalTakeHome =
-                takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty ;
-              const newNetSalary = totalIncome - parseFloat(monthlyPayment) - ledgerFee;
+                takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty;
+            const newNetSalary = totalIncome - parseFloat(monthlyPayment) - ledgerFee;
 
             const loanAmountLabel = document.querySelector(
                 'label[for="loanAmount"]'
@@ -643,8 +669,8 @@
                 loanAmountInput.value = "";
                 customerNameInput.value = ""; // Clear Customer Name
                 calculationDateInput.value = ""; // Clear Calculation Date
-                 negotiationFeeInput.value = "";
-                 ledgerFeeInput.value = "";
+                negotiationFeeInput.value = "";
+                ledgerFeeInput.value = "";
 
                 const allowances = document.querySelectorAll(".allowance");
                 allowances.forEach((input) => {
@@ -699,7 +725,7 @@
                     </tr>
                     <tr>
                         <td>Ability</td>
-                         <td>KES ${ability}</td>
+                        <td>KES ${ability}</td>
                     </tr>
                     <tr>
                         <td>Monthly Payment (EMI)</td>
@@ -711,21 +737,21 @@
                     </tr>
                     <tr>
                         <td>Initial Take Home Amount</td>
-                         <td>KES ${takeHomeAmount.toFixed(2)}</td>
+                        <td>KES ${takeHomeAmount.toFixed(2)}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>Insurance</td>
                         <td>KES ${insurance.toFixed(2)}</td>
                     </tr>
-                      <tr>
+                    <tr>
                         <td>Negotiation Fee</td>
                         <td>KES ${negotiationFee.toFixed(2)}</td>
                     </tr>
-                       <tr>
+                    <tr>
                         <td>Ledger Fee</td>
                         <td>KES ${ledgerFee.toFixed(2)}</td>
                     </tr>
-                       <tr>
+                    <tr>
                         <td>Excise Duty</td>
                         <td>KES ${exciseDuty.toFixed(2)}</td>
                     </tr>
@@ -763,25 +789,31 @@
             const now = new Date();
             const currentTime = now.toLocaleTimeString(); // Format time as HH:MM:SS AM/PM or similar
 
+            // Sanitize the customer name
+            const sanitizedCustomerName = DOMPurify.sanitize(customerName);
+
             let pdfContent = `
                 <div style="font-size: 16px; margin-bottom: 10px; color: #000 !important;">
-                    <p><strong>Customer Name:</strong> ${customerName}</p>
+                    <p><strong>Customer Name:</strong> ${sanitizedCustomerName}</p>
                     <p><strong>Calculation Date:</strong> ${calculationDate} <strong>Time:</strong> ${currentTime}</p>
                 </div>
                 <div>${resultElement.innerHTML}</div>
             `;
-
+             try {
             pdfDoc.html(pdfContent, {
                 callback: function (pdf) {
                     pdf.save("loan_summary.pdf");
                 },
                 margin: [10, 10, 10, 10],
-                autoPaging: "text",
-                x: 0,
+                 x: 0,
                 y: 0,
                 width: 190, //target width in the PDF document
                 windowWidth: 675, //window width in CSS pixels
             });
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            alert("Failed to generate PDF. Please check the console for errors.");
+        }
         });
     </script>
 </body>
