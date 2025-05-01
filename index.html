@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+/*<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -814,4 +814,1091 @@
         });
     </script>
 </body>
+</html>*/
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hezbon Calculator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="new_styles.css" />
+    <style>
+      /*
+      Modern Calculator Stylesheet
+      */
+
+      /* Import Fonts (Optional - Roboto is often system available, but explicit import ensures consistency) */
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+      /* CSS Variables for easier theme management */
+      :root {
+        --primary-color-light: #4a90e2; /* Softer Blue */
+        --primary-color-dark: #58a6ff; /* Brighter Blue for dark mode */
+        --background-light: #f8f9fa; /* Light Grey */
+        --background-dark: #1c2128; /* Dark Grey */
+        --text-light: #343a40; /* Dark Grey */
+        --text-dark: #e6edf3; /* Light Grey */
+        --container-bg-light: #ffffff; /* White */
+        --container-bg-dark: #2d333b; /* Darker Grey */
+        --border-light: #dee2e6; /* Light Border Grey */
+        --border-dark: #444c56; /* Dark Border Grey */
+        --input-bg-light: #ffffff;
+        --input-bg-dark: #22272e;
+        --placeholder-light: #6c757d;
+        --placeholder-dark: #768390;
+        --button-text: #ffffff;
+        --danger-color: #dc3545;
+        --success-color: #198754;
+        --footer-bg: #212529;
+        --footer-text: #ced4da;
+        --table-header-bg-light: var(--primary-color-light);
+        --table-header-text-light: var(--button-text);
+        --table-row-even-bg-light: #f8f9fa;
+        --table-row-hover-bg-light: #e9ecef;
+        --table-header-bg-dark: var(--primary-color-dark);
+        --table-header-text-dark: #1c2128;
+        --table-row-even-bg-dark: #22272e;
+        --table-row-hover-bg-dark: #373e47;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --border-radius: 6px;
+        --transition-speed: 0.2s;
+      }
+
+      /* General styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: var(--background-light);
+        color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align container to top */
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        padding-bottom: 80px; /* Ensure space for footer */
+        position: relative;
+        box-sizing: border-box;
+        transition: background-color var(--transition-speed) ease,
+          color var(--transition-speed) ease;
+        background-image: url("https://github.com/Hezbon12/Hezbon12.github.io/blob/main/pic-article-06.jpg?raw=true"); /* Use logo as background */
+        background-size: cover; /* Cover the area */
+        background-position: center top; /* Position at the top */
+        background-repeat: no-repeat; /* Do not repeat */
+        background-attachment: fixed; /* Optional: keeps the image fixed
+            }
+
+            /* Dark Mode */
+        body.dark-mode {
+          background-color: var(--background-dark);
+          color: var(--text-dark);
+        }
+
+        body.dark-mode .container {
+          background-color: var(--container-bg-dark);
+          border-color: var(--border-dark);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode input[type="number"],
+        body.dark-mode input[type="text"],
+        body.dark-mode input[type="date"] {
+          background-color: var(--input-bg-dark);
+          color: var(--text-dark);
+          border-color: var(--border-dark);
+        }
+
+        body.dark-mode input::placeholder {
+          color: var(--placeholder-dark);
+        }
+
+        body.dark-mode input:focus {
+          border-color: var(--primary-color-dark);
+          box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+        }
+
+        body.dark-mode label {
+          color: var(--text-dark);
+        }
+
+        body.dark-mode h2 {
+          color: var(--text-dark);
+          border-bottom-color: var(--border-dark);
+        }
+
+        body.dark-mode table {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode th {
+          background-color: var(--table-header-bg-dark);
+          color: var(--table-header-text-dark);
+          border-color: var(--border-dark);
+        }
+
+        body.dark-mode td {
+          color: var(--text-dark);
+          border-color: var(--border-dark);
+        }
+
+        body.dark-mode tr:nth-child(even) {
+          background-color: var(--table-row-even-bg-dark);
+        }
+
+        body.dark-mode tr:hover {
+          background-color: var(--table-row-hover-bg-dark);
+        }
+
+        body.dark-mode button,
+        body.dark-mode #resetBtn,
+        body.dark-mode #saveResultsBtn,
+        body.dark-mode #themeToggle {
+          background-color: var(--primary-color-dark);
+          color: var(--table-header-text-dark); /* Better contrast */
+        }
+
+        body.dark-mode button:hover,
+        body.dark-mode #resetBtn:hover,
+        body.dark-mode #saveResultsBtn:hover,
+        body.dark-mode #themeToggle:hover {
+          opacity: 0.9;
+        }
+
+        body.dark-mode #resetBtn {
+          background-color: var(--danger-color);
+          color: var(--button-text);
+        }
+
+        body.dark-mode #saveResultsBtn {
+          background-color: var(--success-color);
+          color: var(--button-text);
+        }
+
+        body.dark-mode .removeAllowance,
+        body.dark-mode .removeLoan,
+        body.dark-mode .removeLoanBalance {
+          background-color: var(--placeholder-dark);
+        }
+
+        body.dark-mode footer {
+          background-color: var(--footer-bg);
+          color: var(--footer-text);
+          border-top-color: var(--border-dark);
+        }
+
+        /* Container */
+        .container {
+          background-color: var(--container-bg-light);
+          padding: 40px;
+          border-radius: var(--border-radius);
+          box-shadow: 0 4px 12px var(--shadow-color);
+          max-width: 900px; /* Wider for better layout */
+          width: 100%;
+          display: flex;
+          gap: 40px; /* Space between sections */
+          margin: 20px auto;
+          border: 1px solid var(--border-light);
+          transition: background-color var(--transition-speed) ease,
+            border-color var(--transition-speed) ease;
+        }
+
+        .input-section,
+        .results-section {
+          display: flex;
+          flex-direction: column;
+          gap: 15px; /* Consistent gap between elements */
+          flex: 1; /* Allow sections to share space */
+        }
+
+        .input-section {
+          max-width: 400px; /* Limit input section width */
+        }
+
+        .results-section {
+          margin-top: 525px; /* Reset margin */
+        }
+
+        /* Logo */
+        #logo {
+          width: 900px; /*100% Make logo responsive */
+          /*max-width: 300px; Limit max size */
+          height: auto;
+          margin: 0 auto 20px auto; /* Center logo */
+          display: block;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /*#logo:hover {
+              transform: scale(1.05);
+              opacity: 0.9;*/
+      }
+
+      /* Headings and Labels */
+      h2 {
+        font-size: 1.4em;
+        font-weight: 500;
+        color: var(--primary-color-light);
+        margin-top: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      label {
+        font-weight: 500;
+        font-size: 0.95em;
+        margin-bottom: 5px;
+        display: block;
+        color: var(--text-light);
+      }
+
+      label .required-field::after {
+        content: " *";
+        color: var(--danger-color);
+        font-weight: bold;
+      }
+
+      label span {
+        font-size: 0.85em;
+        font-style: italic;
+        color: var(--placeholder-light);
+        font-weight: 400;
+      }
+
+      /* Input Fields */
+      input[type="number"],
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--border-radius);
+        box-sizing: border-box;
+        font-size: 1em;
+        color: var(--text-light);
+        background-color: var(--input-bg-light);
+        transition: border-color var(--transition-speed) ease,
+          box-shadow var(--transition-speed) ease,
+          background-color var(--transition-speed) ease,
+          color var(--transition-speed) ease;
+        margin-bottom: 10px; /* Space below inputs */
+      }
+
+      input::placeholder {
+        color: var(--placeholder-light);
+        font-weight: 400;
+      }
+
+      input:focus {
+        border-color: var(--primary-color-light);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+      }
+
+      .error-border {
+        border-color: var(--danger-color) !important;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+      }
+
+      /* Icon Placeholder Styling */
+      .icon-placeholder {
+        position: relative;
+      }
+
+      .icon-placeholder input[type="number"] {
+        padding-left: 35px; /* Make space for icon */
+      }
+
+      .icon-placeholder .fa-calendar,
+      .icon-placeholder .fa-percent {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--placeholder-light);
+        pointer-events: none; /* Prevent icon interaction */
+      }
+
+      /* Buttons */
+      button,
+      #resetBtn,
+      #saveResultsBtn,
+      #themeToggle {
+        background-color: var(--primary-color-light);
+        color: var(--button-text);
+        padding: 12px 20px;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color var(--transition-speed) ease,
+          opacity var(--transition-speed) ease;
+        font-size: 1em;
+        font-weight: 500;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        width: 100%; /* Make buttons full width */
+        box-sizing: border-box;
+      }
+
+      button:hover,
+      #resetBtn:hover,
+      #saveResultsBtn:hover,
+      #themeToggle:hover {
+        opacity: 0.85;
+      }
+
+      /* Specific Button Styles */
+      #resetBtn {
+        background-color: var(--danger-color);
+      }
+
+      #saveResultsBtn {
+        background-color: var(--success-color);
+      }
+
+      #addAllowance,
+      #addLoan,
+      #addLoanBalance {
+        background-color: var(--placeholder-light);
+        color: var(--text-light);
+        font-size: 0.9em;
+        padding: 8px 15px;
+        width: auto; /* Don't make add buttons full width */
+        margin-top: 0;
+      }
+
+      .allowanceInput,
+      .loanInput,
+      .loanBalanceInput {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+
+      .allowanceInput label,
+      .loanInput label,
+      .loanBalanceInput label {
+        flex-shrink: 0; /* Prevent label from shrinking */
+        margin-bottom: 0;
+        width: 150px; /* Align labels */
+      }
+
+      .allowanceInput input,
+      .loanInput input,
+      .loanBalanceInput input {
+        flex-grow: 1; /* Allow input to take remaining space */
+        margin-bottom: 0;
+      }
+
+      .removeAllowance,
+      .removeLoan,
+      .removeLoanBalance {
+        background-color: var(--placeholder-light);
+        color: var(--text-light);
+        padding: 5px 10px;
+        font-size: 0.8em;
+        width: auto;
+        margin: 0;
+        line-height: 1;
+      }
+
+      /* Results Table 10px*/
+      #result {
+        margin-top: 10px;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: var(--border-radius);
+        overflow: hidden; /* Ensures border-radius is applied to table */
+        box-shadow: 0 2px 8px var(--shadow-color);
+        margin-top: 20px;
+        border: 1px solid var(--border-light);
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 12px 15px;
+        border: none; /* Remove individual cell borders */
+        border-bottom: 1px solid var(--border-light); /* Use bottom borders for separation */
+      }
+
+      th {
+        background-color: var(--table-header-bg-light);
+        color: var(--table-header-text-light);
+        font-weight: 500;
+        text-transform: none; /* Remove uppercase */
+        font-size: 1em;
+        border-bottom-width: 2px; /* Thicker border for header */
+        border-color: var(--primary-color-light);
+      }
+
+      tr:last-child td {
+        border-bottom: none; /* Remove border from last row */
+      }
+
+      tr:nth-child(even) {
+        background-color: var(--table-row-even-bg-light);
+      }
+
+      tr:hover {
+        background-color: var(--table-row-hover-bg-light);
+        transition: background-color var(--transition-speed) ease;
+      }
+
+      td {
+        font-weight: 400;
+        color: var(--text-light);
+      }
+
+      td:last-child {
+        font-weight: 500; /* Make amount slightly bolder */
+      }
+
+      /* Blinking Effect */
+      .blinking {
+        animation: blink 1.5s linear infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+        text-align: center;
+        padding: 15px 0;
+        position: absolute;
+        bottom: 0;
+        left: 0; /* Ensure it spans full width */
+        width: 100%;
+        border-top: 1px solid var(--border-dark); /* Use dark border for contrast */
+        font-size: 0.9em;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      /* Theme Toggle Button */
+      #themeToggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: auto; /* Override full width */
+        z-index: 1000; /* Ensure it's above other elements */
+        padding: 8px 15px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .container {
+          flex-direction: column;
+          padding: 15px;
+          width: 95%;
+          /*gap: 30px;*/
+        }
+
+        .input-section,
+        .results-section {
+          max-width: 100%;
+          width: 100%;
+          margin-left: 0;
+        }
+
+        #logo {
+          max-width: 200px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+          padding-bottom: 70px;
+        }
+        .container {
+          padding: 15px;
+        }
+        h2 {
+          font-size: 1.2em;
+        }
+        button,
+        #resetBtn,
+        #saveResultsBtn,
+        #themeToggle {
+          padding: 10px 15px;
+          font-size: 0.95em;
+        }
+        th,
+        td {
+          padding: 10px;
+        }
+        #themeToggle {
+          top: 10px;
+          right: 10px;
+        }
+      }
+    </style>
+    <!-- jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- DOMPurify library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Dark Mode Toggle Button -->
+    <button id="themeToggle">Toggle Dark Mode</button>
+
+    <div class="container">
+      <div class="input-section">
+        <img
+          src="https://github.com/Hezbon12/Hezbon12.github.io/blob/main/pic-article-11.png?raw=true"
+          alt="Loan Calculator Logo"
+          id="logo"
+        />
+        <label>
+          Welcome to the Hezbon loan calculator for
+          <span style="color: red">Government Entities</span> ! Please enter
+          your details below to calculate your loan.
+        </label>
+        <form>
+          <label for="basicPay" class="required-field"
+            >Enter your Basic Pay per month:</label
+          >
+          <input
+            type="number"
+            id="basicPay"
+            name="basicPay"
+            placeholder="Enter amount in KSH"
+            required
+          /><br /><br />
+
+          <label for="netSalary" class="required-field"
+            >Enter your Net Salary per month:<br />
+            <span style="font-size: 0.8em; font-style: italic"
+              >Enter the Net Salary on payslip.</span
+            ></label
+          >
+          <input
+            type="number"
+            id="netSalary"
+            placeholder="Enter amount in KSH"
+            required
+          /><br />
+
+          <h2>Non-Permanent Allowances:</h2>
+          <div id="allowancesContainer">
+            <div class="allowanceInput">
+              <label for="allowance1"
+                >Enter the Allowance:<br />
+                <span style="font-size: 0.8em; font-style: italic"
+                  >Inconsistent allowances like Hardship Allowance*, Salary
+                  ARREARS, Leave Allowance, Telephone bills e.t.c</span
+                ></label
+              >
+              <input
+                type="number"
+                class="allowance"
+                id="allowance1"
+                placeholder="Enter amount in KSH"
+              />
+            </div>
+          </div>
+          <button type="button" id="addAllowance">Add Allowance</button><br />
+
+          <h2>Loans to be bought off:</h2>
+          <div id="loansContainer">
+            <div class="loanInput">
+              <label for="loan1">Enter the Loan installment:</label>
+              <input
+                type="number"
+                class="loan"
+                id="loan1"
+                placeholder="Enter amount in KSH"
+              />
+            </div>
+          </div>
+          <button type="button" id="addLoan">Add Loan</button><br />
+
+          <h2>Loan Balances:</h2>
+          <div id="loanBalancesContainer">
+            <div class="loanBalanceInput">
+              <label for="loanBalance1">Enter the Loan Balance:</label>
+              <input
+                type="number"
+                class="loanBalance"
+                id="loanBalance1"
+                placeholder="Enter amount in KSH"
+              />
+            </div>
+          </div>
+          <button type="button" id="addLoanBalance">Add Loan Balance</button
+          ><br /><br />
+
+          <label for="loanPeriod" class="required-field"
+            >Enter the Loan Period (Months):</label
+          >
+          <div class="icon-placeholder">
+            <input
+              type="number"
+              id="loanPeriod"
+              placeholder="Enter No. of Months"
+              required
+            />
+            <i class="fas fa-calendar"></i>
+          </div>
+          <br /><br />
+
+          <label for="interestRate" class="required-field"
+            >Enter the Loan Interest Rate (%):</label
+          >
+          <div class="icon-placeholder">
+            <input
+              type="number"
+              id="interestRate"
+              placeholder="Enter percentage"
+              required
+            />
+            <i class="fas fa-percent"></i>
+          </div>
+          <br /><br />
+
+          <label for="negotiationFee" class="required-field"
+            >Enter the Negotiation fees Rate (%):<br />
+            <span style="font-size: 0.8em; font-style: italic"
+              >The negotiation % rate for private companies is 2% while that of
+              government entities is 2.5%</span
+            ></label
+          >
+          <div class="icon-placeholder">
+            <input
+              type="number"
+              id="negotiationFee"
+              placeholder="Enter percentage"
+              required
+            />
+            <i class="fas fa-percent"></i>
+          </div>
+          <br />
+
+          <label for="ledgerFee" class="required-field"
+            >Enter the Monthly ledger fee (KES):<br />
+            <span style="font-size: 0.8em; font-style: italic"
+              >The monthly ledger fee/cost of credit is KSH 300 while that of
+              the Judiciary is KSH 4,300</span
+            ></label
+          >
+          <div class="icon-placeholder">
+            <input
+              type="number"
+              id="ledgerFee"
+              placeholder="Enter amount in KSH"
+              required
+            />
+          </div>
+          <br />
+
+          <label for="loanAmount">Enter the Loan Amount:</label>
+          <input
+            type="number"
+            id="loanAmount"
+            placeholder="Enter amount in KSH"
+          /><br />
+
+          <button type="button" id="calculateBtn">Calculate</button><br />
+          <button type="button" id="resetBtn">Reset</button><br /><br />
+        </form>
+      </div>
+      <div class="results-section">
+        <h2>Loan Summary:</h2>
+        <label for="customerName">Customer Name:</label>
+        <input
+          type="text"
+          id="customerName"
+          placeholder="Enter Customer Name"
+        />
+
+        <label for="calculationDate">Date:</label>
+        <input type="date" id="calculationDate" />
+
+        <div id="result"></div>
+        <!-- Save Results Button -->
+        <button type="button" id="saveResultsBtn">Save Results</button>
+      </div>
+    </div>
+    <footer>
+      <p>Designed with ❤️ by the Master of Machines Hezbon</p>
+    </footer>
+    <script>
+      // Dark Mode Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+      });
+
+      // Rest of your existing JavaScript code...
+      const netSalaryInput = document.getElementById("netSalary");
+      const allowancesContainer = document.getElementById(
+        "allowancesContainer"
+      );
+      const loansContainer = document.getElementById("loansContainer");
+      const addAllowanceBtn = document.getElementById("addAllowance");
+      const addLoanBtn = document.getElementById("addLoan");
+      const addLoanBalanceBtn = document.getElementById("addLoanBalance");
+      const calculateBtn = document.getElementById("calculateBtn");
+      const resultDiv = document.getElementById("result");
+      const basicPayInput = document.getElementById("basicPay");
+      const loanPeriodInput = document.getElementById("loanPeriod");
+      const interestRateInput = document.getElementById("interestRate");
+      const loanAmountInput = document.getElementById("loanAmount");
+      const saveResultsBtn = document.getElementById("saveResultsBtn"); // Get Save Results Button
+      const customerNameInput = document.getElementById("customerName"); // Get Customer Name Input
+      const calculationDateInput = document.getElementById("calculationDate"); // Get Calculation Date Input
+      const negotiationFeeInput = document.getElementById("negotiationFee");
+      const ledgerFeeInput = document.getElementById("ledgerFee");
+
+      let allowanceCount = 1;
+      let loanCount = 1;
+      let loanBalanceCount = 1;
+
+      addAllowanceBtn.addEventListener("click", () => {
+        addNewInputField("allowance", allowancesContainer);
+      });
+
+      addLoanBtn.addEventListener("click", () => {
+        addNewInputField("loan", loansContainer);
+      });
+
+      addLoanBalanceBtn.addEventListener("click", () => {
+        addNewInputField("loanBalance", loanBalancesContainer);
+      });
+
+      function addNewInputField(type, container) {
+        if (type === "allowance") {
+          allowanceCount++;
+        } else if (type === "loan") {
+          loanCount++;
+        } else if (type === "loanBalance") {
+          loanBalanceCount++;
+        }
+
+        const newInputDiv = document.createElement("div");
+        const id = `${type}${allowanceCount}${loanCount}${loanBalanceCount}`;
+
+        newInputDiv.className = `${type}Input`;
+        newInputDiv.innerHTML = `
+                <label for="${id}">${
+          type.charAt(0).toUpperCase() + type.slice(1)
+        }:</label>
+                <input type="number" class="${type}" id="${id}" placeholder="KSH">
+                <button type="button" class="remove${
+                  type.charAt(0).toUpperCase() + type.slice(1)
+                }">Remove</button>
+            `;
+
+        container.appendChild(newInputDiv);
+
+        const removeButton = newInputDiv.querySelector(
+          `.remove${type.charAt(0).toUpperCase() + type.slice(1)}`
+        );
+        removeButton.addEventListener("click", () => {
+          container.removeChild(newInputDiv);
+        });
+      }
+
+      function PMT(interestRate, loanPeriod, loanAmount) {
+        const monthlyInterestRate = interestRate / 100 / 12;
+        const denominator = 1 - Math.pow(1 + monthlyInterestRate, -loanPeriod);
+        return (loanAmount * monthlyInterestRate) / denominator;
+      }
+
+      function PV(rate, nper, pmt, fv = 0, type = 0) {
+        if (rate === 0) {
+          return -(pmt * nper + fv);
+        } else {
+          const pow = Math.pow(1 + rate, nper);
+          return (
+            -(pmt * (1 + rate * type) * ((pow - 1) / rate) + fv * pow) / pow
+          );
+        }
+      }
+
+      calculateBtn.addEventListener("click", function () {
+        const requiredFields = [
+          basicPayInput,
+          netSalaryInput,
+          loanPeriodInput,
+          interestRateInput,
+          negotiationFeeInput,
+          ledgerFeeInput,
+        ];
+        let hasErrors = false;
+
+        requiredFields.forEach((field) => {
+          if (!field.value.trim()) {
+            field.classList.add("error-border");
+            hasErrors = true;
+          } else {
+            field.classList.remove("error-border");
+          }
+        });
+
+        if (hasErrors) {
+          alert("Please fill all the required fields!");
+          return; // Stop calculation if there are errors
+        }
+
+        const netSalary = parseFloat(netSalaryInput.value) || 0;
+        const basicPay = parseFloat(basicPayInput.value) || 0;
+        const loanPeriod = parseFloat(loanPeriodInput.value) || 0;
+        const interestRate = parseFloat(interestRateInput.value) || 0;
+        const loanAmount = parseFloat(loanAmountInput.value) || 0;
+        const negotiationFeePercentage =
+          parseFloat(negotiationFeeInput.value) || 0;
+        const ledgerFee = parseFloat(ledgerFeeInput.value) || 0;
+
+        // Change the border color of the loanAmount input field to red if empty, otherwise to black
+        if (loanAmountInput.value.trim() === "") {
+          loanAmountInput.style.borderColor = "red";
+        } else {
+          loanAmountInput.style.borderColor = "black";
+        }
+
+        const allowances = document.querySelectorAll(".allowance");
+        let totalAllowances = 0;
+        allowances.forEach((input) => {
+          totalAllowances += parseFloat(input.value) || 0;
+        });
+        const allowanceAddition = totalAllowances * 1.0;
+
+        const loans = document.querySelectorAll(".loan");
+        let totalLoans = 0;
+        loans.forEach((input) => {
+          totalLoans += parseFloat(input.value) || 0;
+        });
+
+        const loanBalances = document.querySelectorAll(".loanBalance");
+        let totalLoanBalances = 0;
+        loanBalances.forEach((input) => {
+          totalLoanBalances += parseFloat(input.value) || 0;
+        });
+
+        const takeHomeAmount = loanAmount - totalLoanBalances;
+        const adjustedNetSalary = netSalary - allowanceAddition;
+        const oneThirdBasicPay = (basicPay / 3).toFixed(2);
+        const totalIncome = adjustedNetSalary + totalLoans;
+        const debtServiceRatio = (totalIncome - oneThirdBasicPay).toFixed(2);
+        const ability = (
+          debtServiceRatio - parseFloat(ledgerFeeInput.value || 0)
+        ).toFixed(2);
+        const maxAffordableLoan = -PV(
+          interestRate / 100 / 12,
+          loanPeriod,
+          -parseFloat(ability)
+        );
+
+        // Round down maxAffordableLoan to the nearest thousand.
+        const roundedMaxAffordableLoan =
+          Math.floor(Math.abs(maxAffordableLoan) / 1000) * 1000;
+        const monthlyPayment = PMT(
+          interestRate,
+          loanPeriod,
+          loanAmount
+        ).toFixed(0);
+        const insurance = 0.00042 * loanAmount * loanPeriod;
+        const negotiationFee =
+          (negotiationFeePercentage / 100) * takeHomeAmount;
+        const exciseDuty = (20 / 100) * negotiationFee;
+        const finalTakeHome =
+          takeHomeAmount - insurance - negotiationFee - ledgerFee - exciseDuty;
+        const newNetSalary =
+          totalIncome - parseFloat(monthlyPayment) - ledgerFee;
+
+        const loanAmountLabel = document.querySelector(
+          'label[for="loanAmount"]'
+        );
+        loanAmountLabel.textContent =
+          "Please input here Maximum Loan Qualified:";
+        loanAmountLabel.classList.add("blinking");
+        loanAmountLabel.style.color = "green";
+
+        setTimeout(function () {
+          loanAmountLabel.classList.remove("blinking");
+        }, 20000);
+
+        resetBtn.addEventListener("click", function () {
+          netSalaryInput.value = "";
+          basicPayInput.value = "";
+          loanPeriodInput.value = "";
+          interestRateInput.value = "";
+          loanAmountInput.value = "";
+          customerNameInput.value = ""; // Clear Customer Name
+          calculationDateInput.value = ""; // Clear Calculation Date
+          negotiationFeeInput.value = "";
+          ledgerFeeInput.value = "";
+
+          const allowances = document.querySelectorAll(".allowance");
+          allowances.forEach((input) => {
+            input.value = "";
+          });
+
+          const loans = document.querySelectorAll(".loan");
+          loans.forEach((input) => {
+            input.value = "";
+          });
+
+          const loanBalances = document.querySelectorAll(".loanBalance");
+          loanBalances.forEach((input) => {
+            input.value = "";
+          });
+
+          resultDiv.innerHTML = "";
+
+          const loanAmountLabel = document.querySelector(
+            'label[for="loanAmount"]'
+          );
+          loanAmountLabel.textContent = "Loan Amount:";
+          loanAmountLabel.style.color = "black";
+          loanAmountLabel.classList.remove("blinking");
+        });
+
+        const resultsHTML = `
+                <table>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>Adjusted Net Salary</td>
+                        <td>KES ${adjustedNetSalary}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Loans</td>
+                        <td>KES ${totalLoans}</td>
+                    </tr>
+                    <tr>
+                        <td>A third of Basic</td>
+                        <td>KES ${oneThirdBasicPay}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Income(C)</td>
+                        <td>KES ${totalIncome}</td>
+                    </tr>
+                    <tr>
+                        <td>Debt Service Ratio (DSR)</td>
+                        <td>KES ${debtServiceRatio}</td>
+                    </tr>
+                    <tr>
+                        <td>Ability</td>
+                        <td>KES ${ability}</td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Payment (EMI)</td>
+                        <td>KES ${monthlyPayment}</td>
+                    </tr>
+                    <tr>
+                        <td>Maximum Loan Qualified</td>
+                        <td>KES ${roundedMaxAffordableLoan.toFixed(0)}</td>
+                    </tr>
+                    <tr>
+                        <td>Initial Take Home Amount</td>
+                        <td>KES ${takeHomeAmount.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>Insurance</td>
+                        <td>KES ${insurance.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>Negotiation Fee</td>
+                        <td>KES ${negotiationFee.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>Ledger Fee</td>
+                        <td>KES ${ledgerFee.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>Excise Duty</td>
+                        <td>KES ${exciseDuty.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td>Final Take Home Amount</td>
+                        <td>KES ${finalTakeHome.toFixed(0)}</td>
+                    </tr>
+                    <tr>
+                        <td>New Net Salary</td>
+                        <td>KES ${newNetSalary.toFixed(2)}</td>
+                    </tr>
+                </table>
+            `;
+
+        resultDiv.innerHTML = resultsHTML;
+      });
+
+      // Add event listener to change border color when loan amount is input
+      loanAmountInput.addEventListener("input", function () {
+        if (loanAmountInput.value.trim() !== "") {
+          loanAmountInput.style.borderColor = "green";
+        } else {
+          loanAmountInput.style.borderColor = "red";
+        }
+      });
+
+      // Function to generate and download PDF
+      saveResultsBtn.addEventListener("click", function () {
+        const pdfDoc = new jspdf.jsPDF();
+        const resultElement = document.getElementById("result");
+        const customerName = customerNameInput.value;
+        const calculationDate = calculationDateInput.value;
+
+        // Get current time
+        const now = new Date();
+        const currentTime = now.toLocaleTimeString(); // Format time as HH:MM:SS AM/PM or similar
+
+        // Sanitize the customer name
+        const sanitizedCustomerName = DOMPurify.sanitize(customerName);
+
+        let pdfContent = `
+                <div style="font-size: 16px; margin-bottom: 10px; color: #000 !important;">
+                    <p><strong>Customer Name:</strong> ${sanitizedCustomerName}</p>
+                    <p><strong>Calculation Date:</strong> ${calculationDate} <strong>Time:</strong> ${currentTime}</p>
+                </div>
+                <div>${resultElement.innerHTML}</div>
+            `;
+        try {
+          pdfDoc.html(pdfContent, {
+            callback: function (pdf) {
+              pdf.save("loan_summary.pdf");
+            },
+            margin: [10, 10, 10, 10],
+            x: 0,
+            y: 0,
+            width: 190, //target width in the PDF document
+            windowWidth: 675, //window width in CSS pixels
+          });
+        } catch (error) {
+          console.error("Error generating PDF:", error);
+          alert("Failed to generate PDF. Please check the console for errors.");
+        }
+      });
+    </script>
+  </body>
 </html>
+
